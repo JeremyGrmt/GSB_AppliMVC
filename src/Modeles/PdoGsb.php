@@ -93,6 +93,7 @@ class PdoGsb
      */
     public function getInfosVisiteur($login, $mdp): PDOStatement
     {
+        
         $requetePrepare = $this->connexion->prepare(
             'SELECT visiteur.id AS id, visiteur.nom AS nom, '
             . 'visiteur.prenom AS prenom '
@@ -102,7 +103,13 @@ class PdoGsb
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
         $requetePrepare->execute();
-        return $requetePrepare->fetch();
+        if ($requetePrepare === false){
+            return [];
+        }
+        else{
+            return $requetePrepare->fetch();
+        }
+        
     }
 
     /**
