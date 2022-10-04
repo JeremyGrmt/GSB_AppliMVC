@@ -26,7 +26,7 @@ switch ($action) {
         // on demande toutes les clés, et on prend la première,
         // les mois étant triés décroissants
         $lesCles = array_keys($lesMois);
-        $moisASelectionner = $lesCles[1];
+        $moisASelectionner = $lesCles[0];
         include PATH_VIEWS . 'v_listeMois.php';
         break;
     case 'voirEtatFrais':
