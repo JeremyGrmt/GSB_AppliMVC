@@ -92,6 +92,7 @@ class PdoGsb
      */
     public function getInfosVisiteur($login, $mdp): array
     {
+        //il faudra modifier ici aussi
         $requetePrepare = $this->connexion->prepare(
             'SELECT visiteur.id AS id, visiteur.nom AS nom, '
             . 'visiteur.prenom AS prenom '
