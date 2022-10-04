@@ -15,9 +15,8 @@ create table if not exists comptable(
 );
 
 INSERT INTO comptable(id, nom, prenom, login, mdp, adresse, CP, ville, dateembauche)
-	values(
-        ('a001', 'Lourd', 'Herve', 'hlourd', 'abcdefg38', '1 rue du murrier', '83720', 'Trans-en-provence'), 
-        ('a002', 'Gabin', 'Jean', 'jgabin', 'hijklm83', '2 rue du murrier', '83720', 'Trans-en-provence'),
-        ('a003', 'Matin', 'Martin', 'mmatin', 'nopqrs88', '3 rue du murrier', '83720', 'Trans-en-provence')
-          );
+	values
+        ('a001', 'Lourd', 'Herve', 'hlourd', 'abcdefg38', '1 rue du murrier', '83720', 'Trans-en-provence', '2017-10-01'), 
+        ('a002', 'Gabin', 'Jean', 'jgabin', 'hijklm83', '2 rue du murrier', '83720', 'Trans-en-provence', '2003-10-15'),
+        ('a003', 'Matin', 'Martin', 'mmatin', 'nopqrs88', '3 rue du murrier', '83720', 'Trans-en-provence', '1999-05-13');
     
