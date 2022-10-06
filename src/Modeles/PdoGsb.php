@@ -91,7 +91,7 @@ class PdoGsb
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
-    public function getInfosVisiteur($login, $mdp): PDOStatement
+    public function getInfosVisiteur($login, $mdp): array|bool
     {
         
         $requetePrepare = $this->connexion->prepare(
@@ -103,12 +103,8 @@ class PdoGsb
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
         $requetePrepare->execute();
-        if ($requetePrepare === false){
-            return [];
-        }
-        else{
-            return $requetePrepare->fetch();
-        }
+        
+        return $requetePrepare->fetch();
         
     }
 
