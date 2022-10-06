@@ -3,6 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
 <<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+        <group>
+            <file>file:/D:/wamp64/www/GSB/src/Modeles/PdoGsb.php</file>
+            <file>file:/D:/wamp64/www/GSB/public/index.php</file>
+        </group>
+=======
+>>>>>>> Stashed changes
+<<<<<<< Updated upstream
         <group/>
 =======
         <group>
@@ -12,6 +21,10 @@
             <file>file:/C:/Users/logan.raisin/Documents/AP%20GSB/Nouveau%20dossier/GSB_AppliMVC/src/Modeles/PdoGsb.php</file>
             <file>file:/C:/Users/logan.raisin/Documents/AP%20GSB/Nouveau%20dossier/GSB_AppliMVC/src/Vues/v_connexion.php</file>
         </group>
+>>>>>>> Stashed changes
+<<<<<<< Updated upstream
+=======
+>>>>>>> 991110b058af451161375da6883d352212478dc5
 >>>>>>> Stashed changes
     </open-files>
 </project-private>
