@@ -40,7 +40,6 @@
 namespace Modeles;
 
 use PDO;
-use PDOStatement;
 use Outils\Utilitaires;
 
 require '../config/bdd.php';
@@ -91,6 +90,7 @@ class PdoGsb
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
+
     public function getInfosVisiteur($login, $mdp): array|bool
     {
         
@@ -195,7 +195,7 @@ class PdoGsb
      *
      * @return un tableau associatif
      */
-    public function getLesIdFrais(): PDOStatement
+    public function getLesIdFrais(): array
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT fraisforfait.id as idfrais '
