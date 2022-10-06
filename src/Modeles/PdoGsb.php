@@ -93,11 +93,7 @@ class PdoGsb
 
     public function getInfosVisiteur($login, $mdp): array|bool
     {
-<<<<<<< HEAD
         //il faudra modifier ici aussi
-=======
-        
->>>>>>> main
         $requetePrepare = $this->connexion->prepare(
             'SELECT visiteur.id AS id, visiteur.nom AS nom, '
             . 'visiteur.prenom AS prenom '
