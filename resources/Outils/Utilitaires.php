@@ -35,14 +35,16 @@ abstract class Utilitaires
      * @param String $idVisiteur ID du visiteur
      * @param String $nom        Nom du visiteur
      * @param String $prenom     Prénom du visiteur
+     * @param String $role       Role du visiteur
      *
      * @return null
      */
-    public static function connecter($idVisiteur, $nom, $prenom): void
+    public static function connecter($idVisiteur, $nom, $prenom,$role): void
     {
         $_SESSION['idVisiteur'] = $idVisiteur;
         $_SESSION['nom'] = $nom;
         $_SESSION['prenom'] = $prenom;
+        $_SESSION['role'] = $role;
     }
 
     /**
