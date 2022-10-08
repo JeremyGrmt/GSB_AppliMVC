@@ -83,10 +83,10 @@ class PdoGsb
     }
 
     /**
-     * Retourne les informations d'un visiteur
+     * Retourne les informations d'un utilisateur
      *
-     * @param String $login Login du visiteur
-     * @param String $mdp   Mot de passe du visiteur
+     * @param String $login Login du utilisateur
+     * @param String $mdp   Mot de passe du utilisateur
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
@@ -95,10 +95,10 @@ class PdoGsb
     {
         //il faudra modifier ici aussi
         $requetePrepare = $this->connexion->prepare(
-            'SELECT visiteur.id AS id, visiteur.nom AS nom, '
-            . 'visiteur.prenom AS prenom '
-            . 'FROM visiteur '
-            . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
+            'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
+            . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
+            . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
+            . 'WHERE utilisateur.login = :unLogin AND utilisateur.mdp = :unMdp'
         );
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
