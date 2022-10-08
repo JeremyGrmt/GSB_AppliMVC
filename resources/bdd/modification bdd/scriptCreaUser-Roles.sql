@@ -101,3 +101,5 @@ insert into user_roles(id_user,id_role) VALUES
 ('a001',2),
 ('a002',2),
 ('a003',2);
+
+alter table fichefrais drop foreign key `fichefrais_ibfk_2`
