@@ -24,7 +24,7 @@
  */
 function getLesVisiteurs($pdo)
 {
-    $req = 'select * from visiteur';
+    $req = 'select utilisateur.id from utilisateur inner join user_roles on utilisateur.id=user_roles.id_user where user_roles.id_role=1';
     $res = $pdo->query($req);
     $lesLignes = $res->fetchAll();
     return $lesLignes;

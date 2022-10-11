@@ -6,5 +6,8 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-nbproject/private/private.xml
-nbproject/private/private.xml
+.idea/GSB_AppliMVC.iml
+.idea/modules.xml
+.idea/php.xml
+.idea/workspace.xml
+.idea/vcs.xml
