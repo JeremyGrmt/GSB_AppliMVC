@@ -8,6 +8,33 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 USE gsb_frais ;
 
 -- Création de la structure de la base de données
+create table if not exists utilisateur(
+	id char(4) not null,
+	nom char(30),
+	prenom char(30),
+	login char(20),
+	mdp char(20),
+	adresse char(30),
+	cp char(5),
+	ville char(30),
+	dateembauche date,
+        constraint Pk_utilisateur primary key (id)
+);
+
+create table if not exists role(
+	id int not null auto_increment,
+	role varchar(30) not null,
+        constraint PK_role primary key (id)
+);
+
+create table if not exists user_roles(
+	id_user char(4) not null,
+	id_role int not null,
+	constraint PK_userrole primary key (id_user, id_role),
+	constraint FK_userrole_utilisateur foreign key (id_user) references utilisateur(id),
+	constraint FK_userrole_role foreign key (id_role) references role(id)
+);
+
 CREATE TABLE IF NOT EXISTS fraisforfait (
   id char(3) NOT NULL,
   libelle char(20) DEFAULT NULL,
@@ -43,8 +70,7 @@ CREATE TABLE IF NOT EXISTS fichefrais (
   idetat char(2) DEFAULT 'CR',
   PRIMARY KEY (idvisiteur,mois),
   FOREIGN KEY (idetat) REFERENCES etat(id),
-  FOREIGN KEY (idvisiteur) REFERENCES visiteur(id),
-  --foreign key (idvisiteur) references utilisateur(id)
+  FOREIGN KEY (idvisiteur) REFERENCES utilisateur(id),
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS lignefraisforfait (
