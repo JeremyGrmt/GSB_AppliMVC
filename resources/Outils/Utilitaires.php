@@ -28,7 +28,7 @@ abstract class Utilitaires
     {
         return isset($_SESSION['idVisiteur']);
     }
-
+    
     /**
      * Enregistre dans une variable session les infos d'un visiteur
      *
