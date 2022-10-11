@@ -1,88 +1,41 @@
--- Script de restauration de l'application "GSB Frais"
+drop table if exists utilisateur;
+drop table if exists role;
+drop table if exists user_roles;
 
--- Administration de la base de données
-CREATE DATABASE gsb_frais ;
--- GRANT SHOW DATABASES ON *.* TO userGsb@localhost IDENTIFIED BY 'secret';
--- GRANT ALL PRIVILEGES ON `gsb_frais`.* TO userGsb@localhost;
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-USE gsb_frais ;
+create table if not exists utilisateur(
+	id char(4) not null,
+	nom char(30),
+	prenom char(30),
+	login char(20),
+	mdp char(20),
+	adresse char(30),
+	cp char(5),
+	ville char(30),
+	dateembauche date,
+        constraint Pk_utilisateur primary key (id)
+);
 
--- Création de la structure de la base de données
-CREATE TABLE IF NOT EXISTS fraisforfait (
-  id char(3) NOT NULL,
-  libelle char(20) DEFAULT NULL,
-  montant decimal(5,2) DEFAULT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB;
+create table if not exists role(
+	id int not null auto_increment,
+	role varchar(30) not null,
+        constraint PK_role primary key (id)
+);
 
-CREATE TABLE IF NOT EXISTS etat (
-  id char(2) NOT NULL,
-  libelle varchar(30) DEFAULT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB;
+create table if not exists user_roles(
+	id_user char(4) not null,
+	id_role int not null,
+	constraint PK_userrole primary key (id_user, id_role),
+	constraint FK_userrole_utilisateur foreign key (id_user) references utilisateur(id),
+	constraint FK_userrole_utilisateur foreign key (id_role) references role(id)
+);
 
-CREATE TABLE IF NOT EXISTS visiteur (
-  id char(4) NOT NULL,
-  nom char(30) DEFAULT NULL,
-  prenom char(30)  DEFAULT NULL, 
-  login char(20) DEFAULT NULL,
-  mdp char(20) DEFAULT NULL,
-  adresse char(30) DEFAULT NULL,
-  cp char(5) DEFAULT NULL,
-  ville char(30) DEFAULT NULL,
-  dateembauche date DEFAULT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB;
+alter table fichefrais drop foreign key `fichefrais_ibfk_2`;
 
-CREATE TABLE IF NOT EXISTS fichefrais (
-  idvisiteur char(4) NOT NULL,
-  mois char(6) NOT NULL,
-  nbjustificatifs int(11) DEFAULT NULL,
-  montantvalide decimal(10,2) DEFAULT NULL,
-  datemodif date DEFAULT NULL,
-  idetat char(2) DEFAULT 'CR',
-  PRIMARY KEY (idvisiteur,mois),
-  FOREIGN KEY (idetat) REFERENCES etat(id),
-  FOREIGN KEY (idvisiteur) REFERENCES visiteur(id),
-  --foreign key (idvisiteur) references utilisateur(id)
-) ENGINE=InnoDB;
+alter table fichefrais add constraint FK_fichefrais_utilisateur foreign key (idvisiteur) references utilisateur(id);
 
-CREATE TABLE IF NOT EXISTS lignefraisforfait (
-  idvisiteur char(4) NOT NULL,
-  mois char(6) NOT NULL,
-  idfraisforfait char(3) NOT NULL,
-  quantite int(11) DEFAULT NULL,
-  PRIMARY KEY (idvisiteur,mois,idfraisforfait),
-  FOREIGN KEY (idvisiteur, mois) REFERENCES fichefrais(idvisiteur, mois),
-  FOREIGN KEY (idfraisforfait) REFERENCES fraisforfait(id)
-) ENGINE=InnoDB;
+alter table role auto_increment=1;
 
-CREATE TABLE IF NOT EXISTS lignefraishorsforfait (
-  id int(11) NOT NULL auto_increment,
-  idvisiteur char(4) NOT NULL,
-  mois char(6) NOT NULL,
-  libelle varchar(100) DEFAULT NULL,
-  date date DEFAULT NULL,
-  montant decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (idvisiteur, mois) REFERENCES fichefrais(idvisiteur, mois)
-) ENGINE=InnoDB;
-
--- Alimentation des données paramètres
-INSERT INTO fraisforfait (id, libelle, montant) VALUES
-('ETP', 'Forfait Etape', 110.00),
-('KM', 'Frais Kilométrique', 0.62),
-('NUI', 'Nuitée Hôtel', 80.00),
-('REP', 'Repas Restaurant', 25.00);
-
-INSERT INTO etat (id, libelle) VALUES
-('RB', 'Remboursée'),
-('CL', 'Saisie clôturée'),
-('CR', 'Fiche créée, saisie en cours'),
-('VA', 'Validée et mise en paiement');
-
--- Récupération des utilisateurs
-INSERT INTO visiteur (id, nom, prenom, login, mdp, adresse, cp, ville, dateembauche) VALUES
+INSERT INTO utilisateur (id, nom, prenom, login, mdp, adresse, cp, ville, dateembauche) VALUES
 ('a131', 'Villechalane', 'Louis', 'lvillachane', 'jux7g', '8 rue des Charmes', '46000', 'Cahors', '2005-12-21'),
 ('a17', 'Andre', 'David', 'dandre', 'oppg5', '1 rue Petit', '46200', 'Lalbenque', '1998-11-23'),
 ('a55', 'Bedos', 'Christian', 'cbedos', 'gmhxd', '1 rue Peranud', '46250', 'Montcuq', '1995-01-12'),
@@ -110,3 +63,47 @@ INSERT INTO visiteur (id, nom, prenom, login, mdp, adresse, cp, ville, dateembau
 ('f21', 'Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10'),
 ('f39', 'Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01'),
 ('f4', 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01');
+
+insert into role(role) values
+('visiteur'),
+('comptable');
+
+insert into user_roles(id_user,id_role) VALUES
+('a131',1),
+('a17',1),
+('a55',1),
+('a93',1),
+('b13',1),
+('b16',1),
+('b19',1),
+('b25',1),
+('b28',1),
+('b34',1),
+('b4', 1),
+('b50',1),
+('b59',1),
+('c14',1),
+('c3', 1),
+('c54',1),
+('d13',1),
+('d51',1),
+('e22',1),
+('e24',1),
+('e39',1),
+('e49',1),
+('e5', 1),
+('e52',1),
+('f21',1),
+('f39',1),
+('f4',1);
+
+insert into utilisateur(id,nom,prenom,login,mdp,adresse,cp,ville,dateembauche) VALUES
+('a001','Lourd','Herve','hlourd','123456','uneadresse','83000','Toulon','2022-10-03'),
+('a002','Gabin','Jean','jgabin','123456','uneadresse','83000','Toulon','2022-10-03'),
+('a003','Matin','Martin','mmatin','123456','uneadresse','83000','Toulon','2022-10-03');
+
+insert into user_roles(id_user,id_role) VALUES
+('a001',2),
+('a002',2),
+('a003',2);
+
