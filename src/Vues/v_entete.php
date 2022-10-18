@@ -26,6 +26,13 @@
         <meta name="author" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./styles/bootstrap/bootstrap.css" rel="stylesheet">
+        <?php
+            if ($estComptable) {
+        ?>
+        <link href="./styles/styleCompt.css" rel="stylesheet">
+        <?php
+        }
+        ?>
         <link href="./styles/style.css" rel="stylesheet">
     </head>
     <body>
@@ -63,7 +70,8 @@
                                     Afficher mes fiches de frais
                                 </a>
                             </li>
-                            <li 
+                            <li
+                                else(
                             <?php if ($uc == 'deconnexion') { ?>class="active"<?php } ?>>
                                 <a href="index.php?uc=deconnexion&action=demandeDeconnexion">
                                     <span class="glyphicon glyphicon-log-out"></span>

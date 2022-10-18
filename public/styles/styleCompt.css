@@ -1,0 +1,25 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 11 oct. 2022, 10:42:56
+    Author     : logan.raisin
+*/
+:root{
+    --orange-gsb:#ff9933;
+}
+
+a {
+  color: var(--orange-gsb);
+  text-decoration:none;
+}
+
+a:hover {
+  color: var(--orange-gsb);
+  text-decoration:none;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #fff;
+    background-color : var(--orange-gsb); 
+}

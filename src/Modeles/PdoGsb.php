@@ -40,6 +40,7 @@
 namespace Modeles;
 
 use PDO;
+use PDOStatement;
 use Outils\Utilitaires;
 
 require '../config/bdd.php';
@@ -90,7 +91,6 @@ class PdoGsb
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
-
     public function getInfosVisiteur($login, $mdp): array|bool
     {
         //il faudra modifier ici aussi
@@ -195,7 +195,7 @@ class PdoGsb
      *
      * @return un tableau associatif
      */
-    public function getLesIdFrais(): array
+    public function getLesIdFrais(): PDOStatement
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT fraisforfait.id as idfrais '
@@ -439,7 +439,7 @@ class PdoGsb
      * @return un tableau avec des champs de jointure entre une fiche de frais
      *         et la ligne d'état
      */
-    public function getLesInfosFicheFrais($idVisiteur, $mois): array
+    public function getLesInfosFicheFrais($idVisiteur, $mois): array |bool
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT fichefrais.idetat as idEtat, '
@@ -455,8 +455,10 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+        
         $laLigne = $requetePrepare->fetch();
         return $laLigne;
+        
     }
 
     /**

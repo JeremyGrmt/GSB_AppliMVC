@@ -25,8 +25,9 @@ session_start();
 
 $pdo = PdoGsb::getPdoGsb();
 $estConnecte = Utilitaires::estConnecte();
-
+$estComptable = Utilitaires::estComptable();
 require PATH_VIEWS . 'v_entete.php';
+
 
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
