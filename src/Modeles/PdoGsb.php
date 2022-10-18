@@ -439,7 +439,7 @@ class PdoGsb
      * @return un tableau avec des champs de jointure entre une fiche de frais
      *         et la ligne d'état
      */
-    public function getLesInfosFicheFrais($idVisiteur, $mois): array
+    public function getLesInfosFicheFrais($idVisiteur, $mois): array |bool
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT fichefrais.idetat as idEtat, '
@@ -455,8 +455,10 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+        
         $laLigne = $requetePrepare->fetch();
         return $laLigne;
+        
     }
 
     /**
