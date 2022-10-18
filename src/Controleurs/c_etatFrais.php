@@ -39,9 +39,17 @@ switch ($action) {
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
         $numAnnee = substr($leMois, 0, 4);
         $numMois = substr($leMois, 4, 2);
-        $libEtat = $lesInfosFicheFrais['libEtat'];
-        $montantValide = $lesInfosFicheFrais['montantValide'];
-        $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-        $dateModif = Utilitaires::dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
-        include PATH_VIEWS . 'v_etatFrais.php';
+        if($lesInfosFicheFrais != false){
+            //$numAnnee = substr($leMois, 0, 4);
+            //$numMois = substr($leMois, 4, 2);
+            $libEtat = $lesInfosFicheFrais['libEtat'];
+            $montantValide = $lesInfosFicheFrais['montantValide'];
+            $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+            $dateModif = Utilitaires::dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+            include PATH_VIEWS . 'v_etatFrais.php';
+        }
+        else{
+            echo ('aucune fiche de frais enregistrée pour ce mois-ci.');
+        }
+        
 }
