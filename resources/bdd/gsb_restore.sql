@@ -43,8 +43,7 @@ CREATE TABLE IF NOT EXISTS fichefrais (
   idetat char(2) DEFAULT 'CR',
   PRIMARY KEY (idvisiteur,mois),
   FOREIGN KEY (idetat) REFERENCES etat(id),
-  FOREIGN KEY (idvisiteur) REFERENCES visiteur(id),
-  --foreign key (idvisiteur) references utilisateur(id)
+  FOREIGN KEY (idvisiteur) REFERENCES visiteur(id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS lignefraisforfait (

@@ -94,20 +94,36 @@ class PdoGsb
     public function getInfosVisiteur($login, $mdp): array|bool
     {
         //il faudra modifier ici aussi
-        $requetePrepare = $this->connexion->prepare(
-            'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
-            . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
-            . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
-            . 'WHERE utilisateur.login = :unLogin AND utilisateur.mdp = :unMdp'
+        
+        
+        $requetePrepareVisiteur = $this->connexion->prepare(
+            'SELECT visiteur.id AS id, visiteur.nom AS nom, '
+            . 'visiteur.prenom AS prenom'
+            . 'FROM visiteur '
+            . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
         );
-        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        
-        return $requetePrepare->fetch();
-        
-    }
+            $requetePrepareVisiteur->bindParam(':unLogin', $login, PDO::PARAM_STR);
+            $requetePrepareVisiteur->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+            $requetePrepareVisiteur->execute();
+            return $requetePrepareVisiteur->fetch();
 
+    }
+    
+    public function getInfoComptable($login, $mdp): array | bool {
+        $requetePrepareComptable = $this->connexion->prepare(
+            'SELECT comptable.id AS id, comptable.nom AS nom, '
+            . 'comptable.prenom AS prenom '
+            . 'FROM comptable '
+            . 'WHERE comptable.login = :unLogin AND comptable.mdp = :unMdp'
+        );
+        
+        $requetePrepareComptable->bindParam(':unLogin', $login, PDO::PARAM_STR);
+        $requetePrepareComptable->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+        $requetePrepareComptable->execute();
+        
+        return $requetePrepareComptable->fetch();
+    }
+    
     /**
      * Retourne sous forme d'un tableau associatif toutes les lignes de frais
      * hors forfait concernées par les deux arguments.
