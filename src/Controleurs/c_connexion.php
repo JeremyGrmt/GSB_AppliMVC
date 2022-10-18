@@ -35,7 +35,6 @@ switch ($action) {
             include PATH_VIEWS . 'v_erreurs.php';
             include PATH_VIEWS . 'v_connexion.php';
         } else {
-            //la modification de connection se fera ici
             $id = $utilisateur['id'];
             $nom = $utilisateur['nom'];
             $prenom = $utilisateur['prenom'];
