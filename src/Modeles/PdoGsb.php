@@ -108,6 +108,21 @@ class PdoGsb
         
     }
 
+    public function getInfosLesVisiteurs(): array
+    {
+        //il faudra modifier ici aussi
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
+            . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
+            . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
+            . 'WHERE utilisateur.role = 1'
+        );
+
+        $requetePrepare->execute();
+
+        return $requetePrepare->fetch();
+    }
+
     /**
      * Retourne sous forme d'un tableau associatif toutes les lignes de frais
      * hors forfait concernées par les deux arguments.
@@ -439,7 +454,7 @@ class PdoGsb
      * @return un tableau avec des champs de jointure entre une fiche de frais
      *         et la ligne d'état
      */
-    public function getLesInfosFicheFrais($idVisiteur, $mois): array |bool
+    public function getLesInfosFicheFrais($idVisiteur, $mois): array
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT fichefrais.idetat as idEtat, '
@@ -455,10 +470,8 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
-        
         $laLigne = $requetePrepare->fetch();
         return $laLigne;
-        
     }
 
     /**
