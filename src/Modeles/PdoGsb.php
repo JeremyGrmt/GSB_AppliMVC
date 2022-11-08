@@ -40,6 +40,7 @@
 namespace Modeles;
 
 use PDO;
+use PDOStatement;
 use Outils\Utilitaires;
 
 require '../config/bdd.php';
@@ -90,40 +91,38 @@ class PdoGsb
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
-
     public function getInfosVisiteur($login, $mdp): array|bool
     {
         //il faudra modifier ici aussi
-        
-        
-        $requetePrepareVisiteur = $this->connexion->prepare(
-            'SELECT visiteur.id AS id, visiteur.nom AS nom, '
-            . 'visiteur.prenom AS prenom'
-            . 'FROM visiteur '
-            . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
+            . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
+            . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
+            . 'WHERE utilisateur.login = :unLogin AND utilisateur.mdp = :unMdp'
         );
-            $requetePrepareVisiteur->bindParam(':unLogin', $login, PDO::PARAM_STR);
-            $requetePrepareVisiteur->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
-            $requetePrepareVisiteur->execute();
-            return $requetePrepareVisiteur->fetch();
+        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        
+        return $requetePrepare->fetch();
+        
+    }
+    
+    public function getInfosLesVisiteurs(): array
+    {
+        //il faudra modifier ici aussi
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
+            . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
+            . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
+            . 'WHERE utilisateur.role = 1'
+        );
 
-    }
-    
-    public function getInfoComptable($login, $mdp): array | bool {
-        $requetePrepareComptable = $this->connexion->prepare(
-            'SELECT comptable.id AS id, comptable.nom AS nom, '
-            . 'comptable.prenom AS prenom '
-            . 'FROM comptable '
-            . 'WHERE comptable.login = :unLogin AND comptable.mdp = :unMdp'
-        );
+        $requetePrepare->execute();
         
-        $requetePrepareComptable->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepareComptable->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
-        $requetePrepareComptable->execute();
-        
-        return $requetePrepareComptable->fetch();
+        return $requetePrepare->fetch();
     }
-    
+
     /**
      * Retourne sous forme d'un tableau associatif toutes les lignes de frais
      * hors forfait concernées par les deux arguments.
@@ -211,7 +210,7 @@ class PdoGsb
      *
      * @return un tableau associatif
      */
-    public function getLesIdFrais(): array
+    public function getLesIdFrais(): PDOStatement
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT fraisforfait.id as idfrais '
@@ -455,7 +454,7 @@ class PdoGsb
      * @return un tableau avec des champs de jointure entre une fiche de frais
      *         et la ligne d'état
      */
-    public function getLesInfosFicheFrais($idVisiteur, $mois): array |bool
+    public function getLesInfosFicheFrais($idVisiteur, $mois): array
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT fichefrais.idetat as idEtat, '
@@ -471,10 +470,8 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
-        
         $laLigne = $requetePrepare->fetch();
         return $laLigne;
-        
     }
 
     /**

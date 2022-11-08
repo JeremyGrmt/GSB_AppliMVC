@@ -25,8 +25,9 @@ session_start();
 
 $pdo = PdoGsb::getPdoGsb();
 $estConnecte = Utilitaires::estConnecte();
-
+$estComptable = Utilitaires::estComptable();
 require PATH_VIEWS . 'v_entete.php';
+
 
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -51,6 +52,12 @@ switch ($uc) {
         break;
     case 'deconnexion':
         include PATH_CTRLS . 'c_deconnexion.php';
+        break;
+    case 'validFicheFrais':
+        include PATH_CTRLS . 'c_validationfichefrais.php';
+        break;
+    case 'suiviPaiement':
+        include PATH_CTRLS . 'c_suivipaiement.php';
         break;
     default:
         Utilitaires::ajouterErreur('Page non trouvée, veuillez vérifier votre lien...');
