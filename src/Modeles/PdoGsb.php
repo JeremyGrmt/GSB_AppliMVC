@@ -99,7 +99,6 @@ class PdoGsb
             . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
             . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
             . 'WHERE utilisateur.login = :unLogin AND utilisateur.mdp = :unMdp'
-            . 'ORDER BY utilisateur.id ASC'
         );
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
