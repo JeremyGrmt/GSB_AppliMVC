@@ -107,6 +107,21 @@ class PdoGsb
         return $requetePrepare->fetch();
         
     }
+    
+    public function getInfosLesVisiteurs(): array
+    {
+        //il faudra modifier ici aussi
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
+            . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
+            . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
+            . 'WHERE utilisateur.role = 1'
+        );
+
+        $requetePrepare->execute();
+        
+        return $requetePrepare->fetch();
+    }
 
     public function getInfosLesVisiteurs(): array
     {
