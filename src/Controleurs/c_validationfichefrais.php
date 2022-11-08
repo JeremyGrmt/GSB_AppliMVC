@@ -12,11 +12,13 @@ $mois = Utilitaires::getMois(date('d/m/Y'));
 $numAnnee = substr($mois, 0, 4);
 $numMois = substr($mois, 4, 2);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+//echo($action);
 switch ($action) {
     case 'selectionnerVisiteur':
         $lesVisiteurs = $pdo->getInfosLesVisiteurs();
         $Cles = array_keys($lesVisiteurs);
         $visiteurASelectionner = $Cles[0];
+        include PATH_VIEWS . 'v_listeVisiteur.php';
         break;
     case 'selectionnerMois':
         $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
