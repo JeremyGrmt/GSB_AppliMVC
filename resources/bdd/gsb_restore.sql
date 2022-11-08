@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS fichefrais (
   idetat char(2) DEFAULT 'CR',
   PRIMARY KEY (idvisiteur,mois),
   FOREIGN KEY (idetat) REFERENCES etat(id),
+
   FOREIGN KEY (idvisiteur) REFERENCES utilisateur(id),
 ) ENGINE=InnoDB;
 
