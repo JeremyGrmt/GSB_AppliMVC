@@ -25,7 +25,7 @@ switch ($action) {
         // les mois étant triés décroissants
         $lesCles = array_keys($lesMois);
         $moisASelectionner = $lesCles[0];
-        include PATH_VIEWS . 'v_listeMois.php';
+        include PATH_VIEWS . 'comptable\v_listeMois.php';
         break;
 //    case 'saisirFrais':
 //        if ($pdo->estPremierFraisMois($idVisiteur, $mois)) {
