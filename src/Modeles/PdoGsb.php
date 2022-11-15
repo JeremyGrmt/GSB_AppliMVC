@@ -106,6 +106,11 @@ class PdoGsb
         return $requetePrepare->fetch();
     }
 
+    /**
+     * Fonction pour obtenir le mdp hash de l'utilisateur.
+     * @param type $login
+     * @return type mdp utilisateur
+     */
     public function getMdpVisiteur($login){
         $requetePrepare = $this->connexion->prepare(
             'SELECT mdp '
@@ -117,6 +122,10 @@ class PdoGsb
         return $requetePrepare->fetch(PDO::FETCH_OBJ)->mdp;
     }
     
+    /**
+     * Fonction pour faire un tableau avec id, nom, prenom de tous les visiteurs.
+     * @return array
+     */
     public function getInfosLesVisiteurs(): array
     {
         //il faudra modifier ici aussi
