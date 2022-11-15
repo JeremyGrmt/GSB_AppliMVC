@@ -8,12 +8,11 @@
 ?>
 
 <div>
-    <form>
+    <form action="?uc=validFicheFrais&action=selectionnerVisiteur" method="post">
         <div class="form-group">
         <label>Choisir le visiteur : </label> 
         
-        <select id="lstVisiteur" name="lstVisiteur" class="form-control"> 
-            <option value="value2">test</option>
+        <select id="lstVisiteur" name="lstVisiteur" class="form-control">     
             <?php
         
         foreach ($lesVisiteurs as $unVisiteur){
@@ -37,6 +36,7 @@
         ?>
                             
         </select>
+        <input type="submit" value="Subscribe!">
         </div>
         <?php
         include PATH_VIEWS . 'comptable\v_listeMois.php';
@@ -65,6 +65,7 @@
 
                 </select>
             </div>-->
+                
     </form>
 </div>
 
