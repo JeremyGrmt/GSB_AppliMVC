@@ -98,15 +98,24 @@ class PdoGsb
             'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
             . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
             . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
-            . 'WHERE utilisateur.login = :unLogin AND utilisateur.mdp = :unMdp'
-            . 'ORDER BY utilisateur.id ASC'
+            . 'WHERE utilisateur.login = :unLogin'
         );
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+        //$requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
         $requetePrepare->execute();
         
         return $requetePrepare->fetch();
-        
+    }
+
+    public function getMdpVisiteur($login){
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT mdp '
+            . 'FROM utilisateur '
+            . 'WHERE utilisateur.login = :unLogin'
+        );
+        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch(PDO::FETCH_OBJ)->mdp;
     }
     
     public function getInfosLesVisiteurs(): array
