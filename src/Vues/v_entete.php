@@ -94,7 +94,6 @@
                             </li>
                             <li <?php if ($uc == 'validFicheFrais') { ?>class="active"<?php } ?>>
                                 <!-- changer la ligne en dessous -->
-
                                 <a href="index.php?uc=validFicheFrais&action=selectionnerVisiteur">
                                     <span class="glyphicon glyphicon-ok"></span>
                                     Valider les fiches de frais
@@ -117,7 +116,7 @@
                         </ul>
                     </div>
                 </div>
-            </div> 
+            </div>
                 <?php
             }
             } else{
@@ -128,5 +127,6 @@
                          alt="Laboratoire Galaxy-Swiss Bourdin"
                          title="Laboratoire Galaxy-Swiss Bourdin">
                 </h1>
-            <?php }
-            
+            <?php } ?>
+        </body>
+

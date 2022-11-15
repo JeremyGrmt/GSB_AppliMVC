@@ -1,39 +1,5 @@
 DROP TABLE if exists `etat`, `fichefrais`, `fraisforfait`, `lignefraisforfait`, `lignefraishorsforfait`,`role`, `user_roles`, `utilisateur`, `visiteur`;
 
-
-create table if not exists utilisateur(
-	id char(4) not null,
-	nom char(30),
-	prenom char(30),
-	login char(20),
-	mdp char(20),
-	adresse char(30),
-	cp char(5),
-	ville char(30),
-	dateembauche date,
-        constraint Pk_utilisateur primary key (id)
-);
-
-create table if not exists role(
-	id int not null auto_increment,
-	role varchar(30) not null,
-        constraint PK_role primary key (id)
-);
-
-create table if not exists user_roles(
-	id_user char(4) not null,
-	id_role int not null,
-	constraint PK_userrole primary key (id_user, id_role),
-	constraint FK_userrole_utilisateur foreign key (id_user) references utilisateur(id),
-	constraint FK_userrole_utilisateur foreign key (id_role) references role(id)
-);
-
-alter table fichefrais drop foreign key `fichefrais_ibfk_2`;
-
-alter table fichefrais add constraint FK_fichefrais_utilisateur foreign key (idvisiteur) references utilisateur(id);
-
-alter table role auto_increment=1;
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 USE gsb_frais ;
 

@@ -91,23 +91,41 @@ class PdoGsb
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
-    public function getInfosVisiteur($login, $mdp): array|bool
+    public function getInfosVisiteur($login): array|bool
     {
         //il faudra modifier ici aussi
         $requetePrepare = $this->connexion->prepare(
             'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
             . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
             . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
-            . 'WHERE utilisateur.login = :unLogin AND utilisateur.mdp = :unMdp'
+            . 'WHERE utilisateur.login = :unLogin'
         );
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
         $requetePrepare->execute();
         
         return $requetePrepare->fetch();
-        
+    }
+
+    /**
+     * Fonction pour obtenir le mdp hash de l'utilisateur.
+     * @param type $login
+     * @return type mdp utilisateur
+     */
+    public function getMdpVisiteur($login){
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT mdp '
+            . 'FROM utilisateur '
+            . 'WHERE utilisateur.login = :unLogin'
+        );
+        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch(PDO::FETCH_OBJ)->mdp;
     }
     
+    /**
+     * Fonction pour faire un tableau avec id, nom, prenom de tous les visiteurs.
+     * @return array
+     */
     public function getInfosLesVisiteurs(): array
     {
         //il faudra modifier ici aussi
@@ -115,12 +133,23 @@ class PdoGsb
             'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
             . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
             . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
-            . 'WHERE utilisateur.role = 1'
+            . 'WHERE user_roles.id_role = 1'
         );
-
-        $requetePrepare->execute();
         
-        return $requetePrepare->fetch();
+        $requetePrepare->execute();
+        $lesVisiteurs = array();
+        while ($laLigne = $requetePrepare->fetch()){
+            $id = $laLigne['id'];
+            $nom = $laLigne['nom'];
+            $prenom = $laLigne['prenom'];
+            $lesVisiteurs[] = array (
+                'id' => $id,
+                'nom' => $nom,
+                'prenom' => $prenom
+            );
+        }
+        
+        return $lesVisiteurs;
     }
 
     /**

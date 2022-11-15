@@ -17,15 +17,20 @@ switch ($action) {
         $lesVisiteurs = $pdo->getInfosLesVisiteurs();
         $Cles = array_keys($lesVisiteurs);
         $visiteurASelectionner = $Cles[0];
+        include PATH_VIEWS . 'v_listeVisiteur.php';
         break;
 
     case 'selectionnerMois':
+        $lesVisiteurs = $pdo->getInfosLesVisiteurs();
+        $Cles = array_keys($lesVisiteurs);
+        $idVisiteur = filter_input(INPUT_GET, 'lstVisiteur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
         // Afin de sélectionner par défaut le dernier mois dans la zone de liste
         // on demande toutes les clés, et on prend la première,
         // les mois étant triés décroissants
         $lesCles = array_keys($lesMois);
         $moisASelectionner = $lesCles[0];
+        include PATH_VIEWS . 'v_listeVisiteur.php';
         include PATH_VIEWS . 'comptable\v_listeMois.php';
         break;
 //    case 'saisirFrais':
@@ -62,5 +67,5 @@ switch ($action) {
 }
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-require PATH_VIEWS . 'v_valideFicheFrais.php';
+//require PATH_VIEWS . 'v_valideFicheFrais.php';
 //require PATH_VIEWS . 'v_listeFraisHorsForfait.php';
