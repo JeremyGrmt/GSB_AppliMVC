@@ -18,6 +18,7 @@ switch ($action) {
         $Cles = array_keys($lesVisiteurs);
         $visiteurASelectionner = $Cles[0];
         break;
+
     case 'selectionnerMois':
         $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
         // Afin de sélectionner par défaut le dernier mois dans la zone de liste

@@ -13,7 +13,8 @@
         <label>Choisir le visiteur : </label> 
         
         <select id="lstVisiteur" name="lstVisiteur" class="form-control"> 
-        <?php
+            <option value="value2">test</option>
+            <?php
         
         foreach ($lesVisiteurs as $unVisiteur){
             $nom = $unVisiteur['nom'];
@@ -22,7 +23,7 @@
             
             if ($id == $idASelectionner) {
                             ?>
-                            <option selected value="//<?php echo $nom . ''. $prenom ?>">
+                            <option value="//<?php echo $nom . ''. $prenom ?>">
                                 //<?php echo $numMois . '/' . $numAnnee ?> </option>
                             <?php
                         } else {
@@ -34,6 +35,7 @@
             
         }
         ?>
+                            
         </select>
         </div>
         <?php

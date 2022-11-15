@@ -55,7 +55,7 @@ abstract class Utilitaires
         $_SESSION['idVisiteur'] = $idUtilisateur;
         $_SESSION['nom'] = $nom;
         $_SESSION['prenom'] = $prenom;
-        
+        $_SESSION['role']= $role;
     }
 
     /**
