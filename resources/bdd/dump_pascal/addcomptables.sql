@@ -7,6 +7,8 @@
  * Created: 22 nov. 2022
  */
 
+use gsb_frais;
+
 INSERT INTO utilisateur(id,nom,prenom,login,mdp,adresse,cp,ville,dateembauche) VALUES
 ('a001','Lourd','Herve','hlourd','123456','une adresse','83000','Toulon','22-10-03'),
 ('a002','Gabin','Jean','jgabin','123456','une adresse','83000','Toulon','22-10-03'),

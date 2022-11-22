@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS user_roles(
     PRIMARY KEY (id_user,id_role),
     FOREIGN KEY (id_user) REFERENCES utilisateur(id),
     FOREIGN KEY (id_role) REFERENCES role(id)
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
 
 -- Alimentation des données paramètres
 INSERT INTO fraisforfait (id, libelle, montant) VALUES
@@ -127,7 +127,7 @@ INSERT INTO utilisateur (id, nom, prenom, login, mdp, adresse, cp, ville, dateem
 ('f4', 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01');
 
 insert INTO user_roles (id_user,id_role) VALUES
-('a131', 2),
+('a131', 1),
 ('a17', 1),
 ('a55', 1),
 ('a93', 1),
