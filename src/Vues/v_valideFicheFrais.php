@@ -8,34 +8,35 @@
 ?>
 
 <div>
-    <form>
+    <form action="index.php?uc=validFicheFrais&action=selectionnerMois" method="post">
         <div class="form-group">
-        <label>Choisir le visiteur : </label> 
+<!--        <label>Choisir le visiteur : </label> 
         
-        <select id="lstVisiteur" name="lstVisiteur" class="form-control"> 
+        <select id="lstVisiteur" name="lstVisiteur" class="form-control" onchange="this.form.submit()"> 
+            <option value="" selected>choisir un Visiteur..</option>
         <?php
         
-        foreach ($lesVisiteurs as $unVisiteur){
-            $nom = $unVisiteur['nom'];
-            $prenom = $unVisiteur['prenom'];
-            $id = $unVisiteur['id'];
+//        foreach ($lesVisiteurs as $unVisiteur){
+//            $nom = $unVisiteur['nom'];
+//            $prenom = $unVisiteur['prenom'];
+//            $id = $unVisiteur['id'];
+//            
+//            if ($id == $idASelectionner) {
+//                            ?>
+                            <option selected value="////<?php echo $nom . ''. $prenom ?>">
+                                <?php echo $numMois . '/' . $numAnnee ?> </option>
+                            //<?php
+//                        } else {
+//                            ?>
+                            <option value="////<?php echo $nom . ''. $prenom  ?>">
+                                <?php echo $numMois . '/' . $numAnnee ?> </option>
+                            //<?php
+//                        }
             
-            if ($id == $idASelectionner) {
-                            ?>
-                            <option selected value="//<?php echo $nom . ''. $prenom ?>">
-                                //<?php echo $numMois . '/' . $numAnnee ?> </option>
-                            <?php
-                        } else {
-                            ?>
-                            <option value="//<?php echo $nom . ''. $prenom  ?>">
-                                //<?php echo $numMois . '/' . $numAnnee ?> </option>
-                            <?php
-                        }
-            
-        }
-        ?>
+//        }
+//        ?>
         </select>
-        </div>
+        </div>-->
         <?php
         include PATH_VIEWS . 'comptable\v_listeMois.php';
         ?>
