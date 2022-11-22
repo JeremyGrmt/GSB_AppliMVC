@@ -108,19 +108,24 @@ function FancyTable($header, $data)
     // Closing line
     $this->Cell(array_sum($w),0,'','T');
 }
+
+function Footer() {
+    // Positionnement à 1,5 cm du bas
+    $this->SetY(-15);
+    // Police Arial italique 8
+    $this->SetFont('Arial','I',9);
+    // Numéro de page, centré (C)
+    $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+  }
 }
 
 $pdf = new PDF();
 // Column headings
-$header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
+$header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)rrrrrrrr');
 // Data loading
 $data = $pdf->LoadData('test.txt');
 $pdf->SetFont('Arial','',14);
 $pdf->AddPage();
-$pdf->BasicTable($header,$data);
-$pdf->BasicTable($header,$data);
-$pdf->AddPage();
-$pdf->ImprovedTable($header,$data);
-$pdf->AddPage();
 $pdf->FancyTable($header,$data);
+$pdf->Image('signatureComptable.jpg',130,240);
 $pdf->Output();
