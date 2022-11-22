@@ -239,7 +239,7 @@ class PdoGsb
      *
      * @return un tableau associatif
      */
-    public function getLesIdFrais(): PDOStatement
+    public function getLesIdFrais(): PDOStatement|array
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT fraisforfait.id as idfrais '
@@ -376,8 +376,8 @@ class PdoGsb
             $this->majEtatFicheFrais($idVisiteur, $dernierMois, 'CL');
         }
         $requetePrepare = $this->connexion->prepare(
-            'INSERT INTO fichefrais (idvisiteur,mois,nbjustificatifs,'
-            . 'montantvalide,datemodif,idetat) '
+            "INSERT INTO fichefrais (idvisiteur,mois,nbjustificatifs,"
+            . "montantvalide,datemodif,idetat) "
             . "VALUES (:unIdVisiteur,:unMois,0,0,now(),'CR')"
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
