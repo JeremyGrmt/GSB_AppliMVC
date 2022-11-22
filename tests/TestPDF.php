@@ -4,10 +4,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
-
+require('fpdf185/fpdf.php');
 // On active la classe une fois pour toutes les pages suivantes
 // Format portrait (>P) ou paysage (>L), en mm (ou en points > pts), A4 (ou A5, etc.)
-$pdf = new Pdf('P','mm','A4');
+$pdf = new FPDF('P','mm','A4');
 
 // Nouvelle page A4
 $pdf->AddPage();
@@ -18,7 +18,7 @@ $pdf->SetTextColor(0);
 // Compteur de pages
 $pdf->AliasNbPages();
 // Sous-titre calés à gauche
-$pdf->SetFont('Helvetica','B',11);
+$pdf->SetFont('helvetica','B',11);
 // couleur de fond de la cellule : gris clair
 $pdf->setFillColor(230,230,230);
 // Cellule avec les données du sous-titre sur 2 lignes, pas de bordure mais couleur de fond grise
