@@ -73,3 +73,5 @@
         ?>
     </table>
 </div>
+ <input id="pdf" type="submit" value="Créer le pdf" class="btn btn-success" 
+                   role="button">
