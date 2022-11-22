@@ -133,7 +133,8 @@ class PdoGsb
             'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
             . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
             . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
-            . 'WHERE user_roles.id_role = 1'
+            . 'WHERE user_roles.id_role = 1 '
+            . 'ORDER BY prenom ASC'
         );
         
         $requetePrepare->execute();
