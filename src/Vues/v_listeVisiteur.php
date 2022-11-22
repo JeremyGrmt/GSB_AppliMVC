@@ -7,10 +7,11 @@
 ?>
 
 <h5>Choisir le visiteur</h5>
-<form action="index.php?uc=validFicheFrais&action=selectionnerVisiteur">
+<form action="index.php?uc=validFicheFrais&action=selectionnerMois" method="post">
     <div class="form-group">
         <!--<label for="lstVisiteur" accesskey="n">Visiteur :</label>-->
-        <select id="lstVisiteur" name="lstVisiteur" class="form-control">
+        <select id="lstVisiteur" name="lstVisiteur" class="form-control" onchange="this.form.submit()">
+            <option value="" >choisir un visiteur..</option>
             <?php
             foreach($lesVisiteurs as $unVisiteur){
                 $nom = $unVisiteur['nom'];
@@ -18,12 +19,12 @@
                 $id = $unVisiteur['id'];
                 if ($id == $visiteurASelectionner){
                     ?>
-                    <option selected value="<?php echo $prenom. ' ' . $nom ?>">
+                    <option selected value="<?php echo $id ?>">
                 <?php echo $prenom . ' ' . $nom?> </option>
                     <?php
                 } else {
                     ?>
-                    <option value="<?php echo $prenom . ' ' . $nom ?>">
+                    <option value="<?php echo $id ?>">
                     <?php echo $prenom . ' ' . $nom ?></option>
                     <?php
                 }

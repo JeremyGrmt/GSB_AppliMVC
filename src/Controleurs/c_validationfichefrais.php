@@ -21,8 +21,9 @@ switch ($action) {
         break;
     case 'selectionnerMois':
         $lesVisiteurs = $pdo->getInfosLesVisiteurs();
+        
         $Cles = array_keys($lesVisiteurs);
-        $idVisiteur = filter_input(INPUT_GET, 'lstVisiteur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $idVisiteur = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
         // Afin de sélectionner par défaut le dernier mois dans la zone de liste
         // on demande toutes les clés, et on prend la première,

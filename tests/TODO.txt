@@ -1,0 +1,7 @@
+Barème indemnisation kilométrique :
+•	(Véhicule  4CV Diesel) 	0.52 € / Km
+•	(Véhicule 5/6CV Diesel) 	0.58 € / Km
+•	(Véhicule  4CV Essence) 	0.62 € / Km
+•	(Véhicule 5/6CV Essence) 	0.67 € / Km
+
+
