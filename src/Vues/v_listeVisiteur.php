@@ -17,7 +17,7 @@
                 $nom = $unVisiteur['nom'];
                 $prenom = $unVisiteur['prenom'];
                 $id = $unVisiteur['id'];
-                if ($id == $visiteurASelectionner){
+                if ($id == $idVisiteur){
                     ?>
                     <option selected value="<?php echo $id ?>">
                 <?php echo $prenom . ' ' . $nom?> </option>
