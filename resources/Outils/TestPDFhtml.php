@@ -6,9 +6,11 @@
  */
 define('PATH_ROOT','../../public');
 require('fpdf185/fpdf.php');
+use Modeles\PdoGsb;
 
-class PDF extends FPDF
+class TestPDFhtml extends FPDF
 {
+    
    
 function Header() {
     // Logo : 8 >position à gauche du document (en mm), 2 >position en haut du document, 80 >largeur de l'image en mm). La hauteur est calculée automatiquement.
@@ -34,7 +36,7 @@ function LoadData($file)
     $lines = file($file);
     $data = array();
     foreach($lines as $line)
-        $data[] = explode(';',trim($line));
+        $data[] = explode(',',trim($line));
     return $data;
 }
 
@@ -119,11 +121,14 @@ function Footer() {
   }
 }
 
-$pdf = new PDF();
+$pdf = new TestPDFhtml();
+$pdo = PdoGsb::getPdoGsb();
+$idVisiteur = $_SESSION['idVisiteur'];
+$lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
 // Column headings
-$header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)rrrrrrrr');
+$header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
 // Data loading
-$data = $pdf->LoadData('test.txt');
+$data = $pdf->LoadData($pdo->getLesFraisForfait($idVisiteur, 'septembre 2022'));
 $pdf->SetFont('Arial','',14);
 $pdf->AddPage();
 $pdf->FancyTable($header,$data);
