@@ -39,7 +39,21 @@ switch ($action) {
             $nom = $utilisateur['nom'];
             $prenom = $utilisateur['prenom'];
             $role = $utilisateur['role'];
-            Utilitaires::connecter($id, $nom, $prenom, $role);
+            Utilitaires::connecter($id, $nom, $prenom,$role);
+            $email = $utilisateur['email'];
+            $code = rand(1000,2000);
+            $pdo->setCodeA2F($id,$code);
+            mail($email,'[GSB-AppliFrais] Code de vérification', "Code : $code");
+            include PATH_VIEWS . 'v_code2facteurs.php';
+        }
+        break;
+    case 'valideA2FConnexion':
+        $code = filter_input(INPUT_POST,'code',FILTER_SANITIZE_NUMBER_INT);
+        if ($pdo->getCodeVisiteur($_SESSION['idVisiteur'])!==$code){
+            include PATH_VIEWS . 'v_erreurs.php';
+            include PATH_VIEWS . 'v_code2facteurs.php';
+        } else{
+            Utilitaires::connecterA2F($code);
             header('Location: index.php');
         }
         break;
