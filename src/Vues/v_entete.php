@@ -59,6 +59,7 @@
                                     Accueil
                                 </a>
                             </li>
+                            <!--si dernier mois = mois actuel action=saisirfrais sinon action = creer-->
                             <li <?php if ($uc == 'gererFrais') { ?>class="active"<?php } ?>>
                                 <a href="index.php?uc=gererFrais&action=saisirFrais">
                                     <span class="glyphicon glyphicon-pencil"></span>

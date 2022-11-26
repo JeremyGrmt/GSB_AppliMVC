@@ -96,7 +96,7 @@ class PdoGsb
         //il faudra modifier ici aussi
         $requetePrepare = $this->connexion->prepare(
             'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
-            . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
+            . 'utilisateur.prenom AS prenom, user_roles.id_role AS role, utilisateur.email as email '
             . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
             . 'WHERE utilisateur.login = :unLogin'
         );
@@ -122,6 +122,28 @@ class PdoGsb
         return $requetePrepare->fetch(PDO::FETCH_OBJ)->mdp;
     }
     
+    public function setCodeA2F($id,$code){
+        $requetePrepare = $this->connexion->prepare(
+                'update utilisateur '
+                . 'set codea2f = :unCode '
+                . 'where utilisateur.id = :unIdVisiteur '
+        );
+        $requetePrepare->bindParam(':unCode',$code,PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unIdVisiteur', $id,PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    public function getCodeVisiteur($id){
+        $requetePrepare = $this->connexion->prepare(
+                'select utilisateur.codea2f as codea2f '
+                . 'from utilisateur '
+                . 'where utilisateur.id = :unId'
+        );
+        $requetePrepare->bindParam(':unId',$id,PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch()['codea2f'];
+    }
+    
     /**
      * Fonction pour faire un tableau avec id, nom, prenom de tous les visiteurs.
      * @return array
@@ -133,7 +155,8 @@ class PdoGsb
             'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
             . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
             . 'FROM utilisateur INNER JOIN user_roles ON utilisateur.id = user_roles.id_user '
-            . 'WHERE user_roles.id_role = 1'
+            . 'WHERE user_roles.id_role = 1 '
+            . 'ORDER BY prenom ASC'
         );
         
         $requetePrepare->execute();
@@ -239,7 +262,7 @@ class PdoGsb
      *
      * @return un tableau associatif
      */
-    public function getLesIdFrais(): PDOStatement
+    public function getLesIdFrais(): PDOStatement|array
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT fraisforfait.id as idfrais '
@@ -376,8 +399,8 @@ class PdoGsb
             $this->majEtatFicheFrais($idVisiteur, $dernierMois, 'CL');
         }
         $requetePrepare = $this->connexion->prepare(
-            'INSERT INTO fichefrais (idvisiteur,mois,nbjustificatifs,'
-            . 'montantvalide,datemodif,idetat) '
+            "INSERT INTO fichefrais (idvisiteur,mois,nbjustificatifs,"
+            . "montantvalide,datemodif,idetat) "
             . "VALUES (:unIdVisiteur,:unMois,0,0,now(),'CR')"
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
