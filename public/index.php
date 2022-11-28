@@ -59,6 +59,8 @@ switch ($uc) {
     case 'suiviPaiement':
         include PATH_CTRLS . 'c_suiviPaiement.php';
         break;
+    case 'genPDF':
+        include PATH_CTRLS . 'c_genPDF.php';
     default:
         Utilitaires::ajouterErreur('Page non trouvée, veuillez vérifier votre lien...');
         include PATH_VIEWS . 'v_erreurs.php';
