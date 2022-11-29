@@ -5,9 +5,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 
-define('PATH_ROOT','../../public');
+define('PATH_ROOT','../public');
 require('fpdf185/fpdf.php');
 use Modeles\PdoGsb;
+
+namespace Outils;
 
 class pdf extends FPDF
 {
