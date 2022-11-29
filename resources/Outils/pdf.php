@@ -128,10 +128,16 @@ $idVisiteur = $_SESSION['idVisiteur'];
 $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
 // Column headings
 $header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
-// Data loading
-$data = $pdf->LoadData($pdo->getLesFraisForfait($idVisiteur, '202209'));
 $pdf->SetFont('Arial','',14);
 $pdf->AddPage();
-$pdf->FancyTable($header,$data);
+// Data loading
+//$data = $pdf->LoadData($pdo->getLesFraisForfait($idVisiteur, '202209'));
+$i=0;
+$pablo = $pdo->getLesFraisForfait($idVisiteur, '202209');
+while($i<count($pablo))
+{
+    $pdf->Cell(5, 5, $pablo[$i]);
+    $i++;
+}   
 $pdf->Image('signatureComptable.jpg',130,240);
-$pdf->Output();
+$pdf->Output('test.pdf');
