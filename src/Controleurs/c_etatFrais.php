@@ -39,6 +39,10 @@ switch ($action) {
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
         $numAnnee = substr($leMois, 0, 4);
         $numMois = substr($leMois, 4, 2);
+        
+        
+        //include_once   Outils/'TestPDFhtml';
+        
         //gestion du cas où il n'y aurait pas de fiche de frais renvoyée
         if($lesInfosFicheFrais != false){
             //$numAnnee = substr($leMois, 0, 4);

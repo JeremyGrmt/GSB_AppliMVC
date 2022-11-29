@@ -73,5 +73,8 @@
         ?>
     </table>
 </div>
- <input id="pdf" type="submit" value="Créer le pdf" class="btn btn-success" 
+<form action="TestPDFhtml.php" method="get">
+    <input id="pdf" type="submit" value="Créer le pdf" class="btn btn-success"
                    role="button">
+</form>
+ 
