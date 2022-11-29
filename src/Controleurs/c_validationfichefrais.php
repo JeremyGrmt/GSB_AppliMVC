@@ -75,6 +75,7 @@ switch ($action) {
         include PATH_VIEWS . 'v_listeVisiteur.php';
         include PATH_VIEWS . 'comptable\v_listeMois.php';
         include PATH_VIEWS . 'comptable\v_valideFicheFrais.php';
+        include PATH_VIEWS . 'comptable\v_tableauHorsForfait.php';
         break;
 //    case 'saisirFrais':
 //        if ($pdo->estPremierFraisMois($idVisiteur, $mois)) {
