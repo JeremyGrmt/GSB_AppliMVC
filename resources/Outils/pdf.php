@@ -1,15 +1,9 @@
 <?php
-
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
- */
-
 define('PATH_ROOT','../public');
 require('fpdf185/fpdf.php');
 use Modeles\PdoGsb;
 
-namespace Outils;
+//namespace Outils;
 
 class pdf extends FPDF
 {
@@ -128,10 +122,10 @@ $pdf = new pdf();
 $pdo = PdoGsb::getPdoGsb();
 $idVisiteur = $_SESSION['idVisiteur'];
 $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
+$pdf->AddPage();
 // Column headings
 $header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
 $pdf->SetFont('Arial','',14);
-$pdf->AddPage();
 // Data loading
 //$data = $pdf->LoadData($pdo->getLesFraisForfait($idVisiteur, '202209'));
 $i=0;
@@ -141,5 +135,5 @@ while($i<count($pablo))
     $pdf->Cell(5, 5, $pablo[$i]);
     $i++;
 }   
-$pdf->Image('signatureComptable.jpg',130,240);
-$pdf->Output('test.pdf');
+$pdf->Image('../resources/Outils/signatureComptable.jpg',130,240);
+$pdf->Output('D','test.pdf');
