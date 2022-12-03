@@ -117,7 +117,7 @@ function Footer() {
     $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
   }
 }
-
+ob_start();
 $pdf = new pdf();
 $pdo = PdoGsb::getPdoGsb();
 $idVisiteur = $_SESSION['idVisiteur'];
@@ -137,3 +137,4 @@ while($i<count($pablo))
 }   
 $pdf->Image('../resources/Outils/signatureComptable.jpg',130,240);
 $pdf->Output('D','test.pdf');
+ob_end_flush();
