@@ -39,7 +39,7 @@ switch ($action) {
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
         $numAnnee = substr($leMois, 0, 4);
         $numMois = substr($leMois, 4, 2);
-        
+        $_SESSION['lemois'] = $leMois;
         
         
         //include_once   Outils/'TestPDFhtml';

@@ -1,3 +1,0 @@
-moi;toi;nous;
-je;tu;il;
-carré;rectangle;triangle;
