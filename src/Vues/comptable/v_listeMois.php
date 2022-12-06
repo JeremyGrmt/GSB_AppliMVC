@@ -3,7 +3,7 @@
 ?>
 <div class="row">
     <div class="col-md-4">
-        <form action="index.php?uc=validFicheFrais&action=validerfichefrais" 
+        <form action="<?php echo $uc_ac?>"
               method="post" role="form">
             <div class="form-group">
                 <label for="lstMois" accesskey="n">Mois : </label>

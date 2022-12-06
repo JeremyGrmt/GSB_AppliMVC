@@ -14,6 +14,7 @@
                                 <span class="input-group-addon">
                                     <i class="glyphicon glyphicon-qrcode"></i>
                                 </span>
+<!--                                <span class="input-group-addon material-icons">dialpad</span>-->
                                 <input class="form-control" placeholder="Code"
                                        name="code" type="text" maxlength="4">
                             </div>
