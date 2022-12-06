@@ -17,9 +17,12 @@
 
 ?>
 <hr>
+
+
 <div class="row">
     <div class="panel panel-info">
         <div class="panel-heading">Descriptif des éléments hors forfait</div>
+        
         <table class="table table-bordered table-responsive">
             <thead>
                 <tr>
@@ -37,7 +40,7 @@
                 $montant = $unFraisHorsForfait['montant'];
                 $id = $unFraisHorsForfait['id']; ?>           
                 <tr>
-                    <form action="modifierdonnées" method="post">
+                    <form action="index.php?uc=validFicheFrais&action=validerMajFraisHorsForfait" method="post">
                     <td><input class="input-table" type="text" id="date" name="date" required value= <?php echo '"'.$date. '"' ?>></input></td>
                         <td><input class="input-table" type="text" id="libelle" name="libelle" required value= <?php echo '"'.$libelle. '"' ?>></td>
                         <td><input class="input-table" type="text" id="montant" name="montant" required value= <?php echo '"'.$montant. '"'  ?>></td>
@@ -56,5 +59,5 @@
     </div>
 </div>
 <div class="row">
-    <<form action="action"></form>
+    <form action="action"></form>
 </div>
