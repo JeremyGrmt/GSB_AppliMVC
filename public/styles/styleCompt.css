@@ -84,3 +84,12 @@ table,td,th {
 .btn-test{
     margin-bottom: 50px;
 }
+
+.affichagenom{
+    float:right;
+    margin:10px;
+}
+
+.affichagenom b{
+    background-color:var(--orange-gsb);
+}
