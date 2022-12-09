@@ -39,29 +39,12 @@ class pdf extends FPDF {
         return $data;
     }
 
-    function BasicTable($data)
-//$header
-     {
-        // Header
-//        foreach ($header as $col)
-//            $this->Cell(40, 7, utf8_decode($col), 1);
-//        
-//        $this->Ln();
-        // Data
+    function BasicTable($data) {
+        // Données
         foreach ($data as $row) {
-            $this->Cell(40, 6, utf8_decode($row), 1);
-            
+            foreach ($row as $col)
+                $this->Cell(45, 8, utf8_decode($col), 1);
             $this->Ln();
-            // Titre en gras avec une police Arial de 11
-            $this->SetFont('Arial', 'B', 11);
-            // fond gris
-            $this->setFillColor(230, 230, 230);
-            // position du coin supérieur gauche
-            $this->SetX(70);
-            // Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
-            //$this->Cell(60, 8, utf8_decode('état frais'), 0, 1, 'C', 1);
-            // Saut de ligne 10 mm
-            $this->Ln(0);
         }
     }
 
@@ -71,7 +54,7 @@ class pdf extends FPDF {
         // Police Arial italique 8
         $this->SetFont('Arial', 'I', 9);
         // Numéro de page, centré (C)
-        $this->Cell(0, 10, 'Page ' . $this->PageNo() .'/1', 0, 0, 'C');
+        $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/1', 0, 0, 'C');
     }
 
 }
@@ -96,21 +79,20 @@ $pdf->SetFont('Arial', '', 14);
 //$data = $pdf->LoadData($pdo->getLesFraisForfait($idVisiteur, '202209'));
 $i = 0;
 foreach ($tablo as $unFrais) {
-                    $idFrais = $unFrais['idfrais'];
-                    $libelle = $unFrais['libelle'];
-                    $quantite = $unFrais['quantite'];
-                    array_push($header,$libelle);
-                    array_push($quantites,$quantite);
+    $libelle = $unFrais['libelle'];
+    $quantite = $unFrais['quantite'];
+    array_push($header, $libelle);
+    array_push($header, $quantite);
+    array_push($header, 50);
+    array_push($header, 50);
+    array_push($montants,$header);
+    $header = array();
 }
-foreach ($montantUnitaire as $unFrais) {
-                    $montantunit = $unFrais['montantValide'];
-                    array_push($montants,$montantunit);
 
-}
 //array_push($header,$lemois);
 
-$pdf->BasicTable($header);
 $pdf->BasicTable($montants);
+//$pdf->BasicTable($montants);
 $pdf->Image('../resources/Outils/signatureComptable.jpg', 130, 240);
 //ob_clean();
 $pdf->Output();
