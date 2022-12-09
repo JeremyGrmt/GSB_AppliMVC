@@ -83,8 +83,8 @@ foreach ($tablo as $unFrais) {
     $quantite = $unFrais['quantite'];
     array_push($header, $libelle);
     array_push($header, $quantite);
-    array_push($header, 50);
-    array_push($header, 50);
+    array_push($header, 50); //faire une methode pour avoir le montant unitaire
+    array_push($header, 50); //faire une methode pour multiplier montant unitaire * $quantite
     array_push($montants,$header);
     $header = array();
 }
