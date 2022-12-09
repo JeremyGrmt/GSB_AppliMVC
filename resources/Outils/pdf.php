@@ -64,7 +64,7 @@ $idVisiteur = $_SESSION['idVisiteur'];
 $lemois = $_SESSION['lemois'];
 $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
 $tablo = $pdo->getLesFraisForfait($idVisiteur, $lemois);
-$montantUnitaire = $pdo->getLesInfosFicheFrais($idVisiteur, $lemois);
+$lesMontant = $pdo->getMontantFraisForfait();
 //ob_start();
 ob_clean();
 $pdf = new pdf();
@@ -83,12 +83,15 @@ foreach ($tablo as $unFrais) {
     $quantite = $unFrais['quantite'];
     array_push($header, $libelle);
     array_push($header, $quantite);
-    array_push($header, 50); //faire une methode pour avoir le montant unitaire
-    array_push($header, 50); //faire une methode pour multiplier montant unitaire * $quantite
+//faire une methode pour multiplier montant unitaire * $quantite
     array_push($montants,$header);
     $header = array();
 }
-
+foreach ($lesMontant as $unFrais){
+    $montant = $unFrais['montant'];
+    array_push($montants[$i],$montant);
+    $i++;
+}
 //array_push($header,$lemois);
 
 $pdf->BasicTable($montants);

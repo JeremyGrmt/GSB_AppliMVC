@@ -257,6 +257,14 @@ class PdoGsb
         return $requetePrepare->fetchAll();
     }
 
+    public function getMontantFraisForfait(): array {
+        $requetePrepare = $this->connexion->prepare(
+                'SELECT fraisforfait.montant as montant '
+                . 'FROM fraisforfait'
+                );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
     /**
      * Retourne tous les id de la table FraisForfait
      *
