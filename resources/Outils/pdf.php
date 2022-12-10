@@ -16,30 +16,25 @@ class pdf extends FPDF {
         $this->Ln(20);
 
         // Titre en gras avec une police Arial de 11
-        $this->SetFont('Arial', 'B', 11);
+        $this->SetFont('Arial', 'B', 20);
         // fond gris
-        $this->setFillColor(230, 230, 230);
+        //$this->setFillColor(230, 230, 230);
         // position du coin supérieur gauche
         $this->SetX(70);
         // Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
-        $this->Cell(60, 8, utf8_decode('état frais'), 0, 1, 'C', 1);
+        $this->Cell(60, 8, utf8_decode('état de frais engagé'), 0, 1, 'C', 0);
         // Saut de ligne 10 mm
+        $this->SetFont( "Arial", "BU", 15 );
+        $this->SetXY( 8, 50 ) ;
+        $this->Cell($this->GetStringWidth("Visiteur"), 0, "Visiteur :", 0, "L");
         $this->Ln(20);
     }
 
-// Load data
-    function LoadData($file) {
-        // Read file lines
-        $lines = file($file);
-        $data = array();
-        foreach ($lines as $line) {
-            $data[] = explode(',', trim($line));
-        }
-
-        return $data;
-    }
-
-    function BasicTable($data) {
+    function BasicTable($header,$data) {
+        // Header
+        foreach ($header as $col)
+            $this->Cell(45, 8, $col, 0, 0, 'C', 0);
+        $this->Ln();
         // Données
         foreach ($data as $row) {
             foreach ($row as $col)
@@ -70,9 +65,13 @@ ob_clean();
 $pdf = new pdf();
 $pdf->AddPage();
 // Column headings
-$header = array();
-$quantites = array();
-$montants = array();
+$libelleQuantite = array();
+$header = array("Frais Forfais"
+    , "Quantite"
+    , "Montant Unitaire"
+    ,"Total"
+    );
+$datasTablo = array();
 
 $pdf->SetFont('Arial', '', 14);
 // Data loading
@@ -81,20 +80,22 @@ $i = 0;
 foreach ($tablo as $unFrais) {
     $libelle = $unFrais['libelle'];
     $quantite = $unFrais['quantite'];
-    array_push($header, $libelle);
-    array_push($header, $quantite);
+    array_push($libelleQuantite, $libelle);
+    array_push($libelleQuantite, $quantite);
 //faire une methode pour multiplier montant unitaire * $quantite
-    array_push($montants,$header);
-    $header = array();
+    array_push($datasTablo, $libelleQuantite);
+    $libelleQuantite = array();
 }
-foreach ($lesMontant as $unFrais){
+foreach ($lesMontant as $unFrais) {
     $montant = $unFrais['montant'];
-    array_push($montants[$i],$montant);
+    $total = floatval($datasTablo[$i][1])* floatval($montant);
+    array_push($datasTablo[$i], $montant);
+    array_push($datasTablo[$i],$total);
     $i++;
 }
 //array_push($header,$lemois);
 
-$pdf->BasicTable($montants);
+$pdf->BasicTable($header,$datasTablo);
 //$pdf->BasicTable($montants);
 $pdf->Image('../resources/Outils/signatureComptable.jpg', 130, 240);
 //ob_clean();

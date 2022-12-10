@@ -88,15 +88,15 @@ function FancyTable($header, $data)
 
 $pdf = new PDF();
 // Column headings
-$header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
+$libelleQuantite = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
 // Data loading
 $data = $pdf->LoadData('countries.txt');
 $pdf->SetFont('Arial','',14);
 $pdf->AddPage();
-$pdf->BasicTable($header,$data);
+$pdf->BasicTable($libelleQuantite,$data);
 $pdf->AddPage();
-$pdf->ImprovedTable($header,$data);
+$pdf->ImprovedTable($libelleQuantite,$data);
 $pdf->AddPage();
-$pdf->FancyTable($header,$data);
+$pdf->FancyTable($libelleQuantite,$data);
 $pdf->Output();
 ?>
