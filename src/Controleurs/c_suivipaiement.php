@@ -68,5 +68,6 @@ switch ($action) {
         break;
         
     case 'miseEnPaiement':
+        $pdo->majEtatFicheFrais($idVisiteur,$leMois,"VA");
         break;
 }

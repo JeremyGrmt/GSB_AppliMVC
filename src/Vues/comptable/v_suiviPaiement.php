@@ -74,7 +74,7 @@
 
 <!--affichage des justificatifs-->
 <div class="row">
-    <form action="action">
+    <form action="index.php?uc=suiviPaiement&action=miseEnPaiement">
         <div>
             <label>Nombre de justificatifs : </label>
             <input class="input-justif-final" type="text" id="nbJustificatifs" name="nbJustificatifs" required value= <?php echo '"'.$nbJustificatifs. '"'  ?> disabled="disabled">
