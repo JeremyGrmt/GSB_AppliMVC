@@ -6,10 +6,10 @@
  */
 ?>
 
-<h5>Choisir le visiteur</h5>
+<div class="row">
 <form action="<?php echo $uc?>&action=selectionnerMois" method="post">
-    <div class="form-group">
-        <!--<label for="lstVisiteur" accesskey="n">Visiteur :</label>-->
+    <div class="col-md-4">
+        <label>Visiteur :</label>
         <select id="lstVisiteur" name="lstVisiteur" class="form-control" onchange="this.form.submit()">
             <option value="" >choisir un visiteur..</option>
             <?php
@@ -31,5 +31,5 @@
             }
             ?>
         </select>
-    </div>
+    <!--</div>-->
 </form>

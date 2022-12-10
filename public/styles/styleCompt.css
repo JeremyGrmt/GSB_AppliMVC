@@ -93,3 +93,8 @@ table,td,th {
 .affichagenom b{
     background-color:var(--orange-gsb);
 }
+
+.form-control{
+    display:flex;
+    width:auto;
+}
