@@ -61,6 +61,8 @@ class pdf extends FPDF {
 
 $pdo = PdoGsb::getPdoGsb();
 $idVisiteur = $_SESSION['idVisiteur'];
+$nomVisiteur = $_SESSION['nom'];
+$prenomVisiteur = $_SESSION['prenom'];
 $lemois = $_SESSION['lemois'];
 $subMois = substr($lemois, 4, 6);
 $subAnnee = substr($lemois, 0, 4);
@@ -129,7 +131,7 @@ foreach ($lesMontantHorsForfait as $unFraisHorsForfait) {
 //array_push($header,$lemois);
 $pdf->SetFont("Arial","", 15);
 $pdf->SetXY(8, 60);
-$pdf->Cell("Visiteur", 0, "Visiteur : ", 0, "L");
+$pdf->Cell("Visiteur", 0, "Visiteur : ". $nomVisiteur . " ". $prenomVisiteur, 0, "L");
 $pdf->SetXY(8, 65);
 $pdf->Cell("Mois", 0, "Fiche du : ". $subMois ."/".$subAnnee, 0, "L");
 $pdf->Ln(20);
