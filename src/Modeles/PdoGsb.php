@@ -106,6 +106,19 @@ class PdoGsb
         return $requetePrepare->fetch();
     }
 
+    public function getNomVisiteur($idVisiteur): array
+    {
+        //il faudra modifier ici aussi
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT utilisateur.nom AS nom, '
+            . 'FROM utilisateur '
+            .'WHERE utilisateur.id = :unIdVisiteur'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        
+        return $requetePrepare->fetch();
+    }
     /**
      * Fonction pour obtenir le mdp hash de l'utilisateur.
      * @param type $login
