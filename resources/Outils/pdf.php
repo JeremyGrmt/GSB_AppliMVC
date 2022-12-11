@@ -29,11 +29,15 @@ class pdf extends FPDF {
     function BasicTable($header, $data, $tailleColonnes) {
         // Header
         $i = 0;
+        $this->setTextColor(0, 0, 230);
+        $this->SetFont('Courier', 'I', 14);
         foreach ($header as $col){
             $this->Cell($tailleColonnes[$i], 8, utf8_decode($col), 0, 0, 'C', 0);
             $i++;
         }
         $this->Ln();
+        $this->setTextColor(0, 0, 0);
+        $this->SetFont('Arial', '', 14);
         // Données
         //$verif = True;
         $j = 0;
@@ -94,7 +98,7 @@ $pdf->SetFont('Arial', '', 14);
 $i = 0;
 //tailles des colonnes des tableaux
 $tailleColonnes1 = array (
-    45, 30, 45, 30
+    50, 35, 55, 35
 );
 $tailleColonnes2 = array (
     45, 100, 30
@@ -129,7 +133,7 @@ foreach ($lesMontantHorsForfait as $unFraisHorsForfait) {
     $tabloTemp = array();
 }
 //array_push($header,$lemois);
-$pdf->SetFont("Arial","", 15);
+$pdf->SetFont("Arial","", 14);
 $pdf->SetXY(8, 60);
 $pdf->Cell("Visiteur", 0, "Visiteur : ". $nomVisiteur . " ". $prenomVisiteur, 0, "L");
 $pdf->SetXY(8, 65);
