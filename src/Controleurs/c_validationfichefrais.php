@@ -66,6 +66,7 @@ switch ($action) {
             $montantValide = $lesInfosFicheFrais['montantValide'];
             $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
             $dateModif = Utilitaires::dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+            $_SESSION['leMois'] = $leMois;
         }
         else{
             echo ('aucune fiche de frais enregistrée pour ce mois-ci.');
@@ -82,15 +83,28 @@ switch ($action) {
 //            $pdo->creeNouvellesLignesFrais($idVisiteur, $mois);
 //        }
 //        break;
-//    case 'validerMajFraisForfait':
-//        $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-//        if (Utilitaires::lesQteFraisValides($lesFrais)) {
-//            $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
-//        } else {
-//            Utilitaires::ajouterErreur('Les valeurs des frais doivent être numériques');
-//            include PATH_VIEWS . 'v_erreurs.php';
-//        }
-//        break;
+    case 'validerMajFraisForfait':
+       $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+       if (Utilitaires::lesQteFraisValides($lesFrais)) {
+            $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
+        } else {
+            Utilitaires::ajouterErreur('Les valeurs des frais doivent être numériques');
+            include PATH_VIEWS . 'v_erreurs.php';
+        }
+        break;
+    case 'validerMajFraisHorsForfait':
+        $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+        if (Utilitaires::lesQteFraisValides($lesFrais)) {
+            $pdo->MajFraisHorsForfait($_SESSION['sessionIdVisiteur'], $_SESSION['leMois'], $lesFrais['libelle'], $lesFrais['date'], $lesFrais['montant']);
+            
+        } else {
+            
+            Utilitaires::ajouterErreur('Les valeurs des frais doivent être numériques');
+            include PATH_VIEWS . 'v_erreurs.php';
+        }
+        break;
+        
+        
 //    case 'validerCreationFrais':
 //        $dateFrais = Utilitaires::dateAnglaisVersFrancais(
 //            filter_input(INPUT_POST, 'dateFrais', FILTER_SANITIZE_FULL_SPECIAL_CHARS)

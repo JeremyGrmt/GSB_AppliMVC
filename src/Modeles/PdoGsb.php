@@ -468,6 +468,24 @@ class PdoGsb
         $requetePrepare->bindParam(':unMontant', $montant, PDO::PARAM_INT);
         $requetePrepare->execute();
     }
+    
+    public function MajFraisHorsForfait($idVisiteur, $mois, $libelle, $date, $montant): void
+    {
+        {
+        $dateFr = Utilitaires::dateFrancaisVersAnglais($date);
+        $requetePrepare = $this->connexion->prepare(
+            'UPDATE lignefraishorsforfait set(lignefraisforfait.libelle, lignefraisforfait.date, lignefraisforfait.montant)'
+            . 'VALUES ( :unLibelle, :uneDateFr, :unMontant) '
+                . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur AND lignefraisforfait.mois = :mois'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unLibelle', $libelle, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':uneDateFr', $dateFr, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMontant', $montant, PDO::PARAM_INT);
+        $requetePrepare->execute();
+    }
+    }
 
     /**
      * Supprime le frais hors forfait dont l'id est passé en argument
