@@ -138,6 +138,8 @@ $pdf->SetXY(8, 60);
 $pdf->Cell("Visiteur", 0, "Visiteur : ". $nomVisiteur . " ". $prenomVisiteur, 0, "L");
 $pdf->SetXY(8, 65);
 $pdf->Cell("Mois", 0, "Fiche du : ". $subMois ."/".$subAnnee, 0, "L");
+$pdf->SetXY(8, 70);
+$pdf->Cell("Matricule", 0, "Matricule : ". $idVisiteur. "". $nomVisiteur, 0, "L");
 $pdf->Ln(20);
 $pdf->BasicTable($header, $datasTablo,$tailleColonnes1);
 $pdf->setTextColor(0, 0, 0);
