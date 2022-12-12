@@ -94,14 +94,14 @@ switch ($action) {
         break;
     case 'validerMajFraisHorsForfait':
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-        if (Utilitaires::lesQteFraisValides($lesFrais)) {
-            $pdo->MajFraisHorsForfait($_SESSION['sessionIdVisiteur'], $_SESSION['leMois'], $lesFrais);
+        //if (Utilitaires::lesQteFraisValides($lesFrais)) {
+            $pdo->MajLigneFraisHorsForfait($_SESSION['sessionIdVisiteur'], $_SESSION['leMois'], $_POST['libelle'],$_POST['date'],$_POST['montant'], $_GET['id']/*$lesFrais*/);
             
-        } else {
+       // } else {
             
-            Utilitaires::ajouterErreur('Les valeurs des frais doivent être numériques');
-            include PATH_VIEWS . 'v_erreurs.php';
-        }
+//            Utilitaires::ajouterErreur('Les valeurs des frais doivent être numériques');
+//            include PATH_VIEWS . 'v_erreurs.php';
+//        }
         break;
         
         
