@@ -1,7 +1,7 @@
 -- Script de restauration de l'application "GSB Frais"
 
 -- Administration de la base de données
-CREATE DATABASE gsb_frais ;
+CREATE DATABASE if not exists gsb_frais  ;
 GRANT SHOW DATABASES ON *.* TO userGsb@localhost IDENTIFIED BY 'secret';
 GRANT ALL PRIVILEGES ON `gsb_frais`.* TO userGsb@localhost;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS fichefrais (
   PRIMARY KEY (idvisiteur,mois),
   FOREIGN KEY (idetat) REFERENCES etat(id),
 
-  FOREIGN KEY (idvisiteur) REFERENCES utilisateur(id),
+  FOREIGN KEY (idvisiteur) REFERENCES utilisateur(id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS lignefraisforfait (

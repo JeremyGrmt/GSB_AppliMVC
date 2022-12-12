@@ -1,7 +1,7 @@
 -- Script de restauration de l'application "GSB Frais" avec des utilisiteur plu
 
 -- Administration de la base de données
-CREATE DATABASE gsb_frais ;
+CREATE DATABASE if not exists  gsb_frais ;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 USE gsb_frais ;
 
