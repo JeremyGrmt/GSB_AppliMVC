@@ -75,6 +75,7 @@ $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
 $tablo = $pdo->getLesFraisForfait($idVisiteur, $lemois);
 $lesMontant = $pdo->getMontantFraisForfait();
 $lesMontantHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $lemois);
+$totaltotal = 0;
 //ob_start();
 ob_clean();
 $pdf = new pdf();
@@ -117,6 +118,7 @@ foreach ($lesMontant as $unFrais) {
     array_push($datasTablo[$i], $montant);
     array_push($datasTablo[$i], $total);
     $i++;
+    $totaltotal += $total;
 }
 
 //hors forfait
@@ -131,15 +133,16 @@ foreach ($lesMontantHorsForfait as $unFraisHorsForfait) {
     array_push($tabloTemp, $montant);
     array_push($tabloHorsForfait, $tabloTemp);
     $tabloTemp = array();
+    $totaltotal += floatval($montant);
 }
 //array_push($header,$lemois);
 $pdf->SetFont("Arial","", 14);
 $pdf->SetXY(8, 60);
-$pdf->Cell("Visiteur", 0, "Visiteur : ". $nomVisiteur . " ". $prenomVisiteur, 0, "L");
+$pdf->Cell("Visiteur", 0, "Visiteur : ". utf8_decode($nomVisiteur) . " ". utf8_decode($prenomVisiteur), 0, "L");
 $pdf->SetXY(8, 65);
 $pdf->Cell("Mois", 0, "Fiche du : ". $subMois ."/".$subAnnee, 0, "L");
 $pdf->SetXY(8, 70);
-$pdf->Cell("Matricule", 0, "Matricule : ". $idVisiteur. "". $nomVisiteur, 0, "L");
+$pdf->Cell("Matricule", 0, "Matricule : ". $idVisiteur. "". utf8_decode($nomVisiteur), 0, "L");
 $pdf->Ln(20);
 $pdf->BasicTable($header, $datasTablo,$tailleColonnes1);
 $pdf->setTextColor(0, 0, 0);
@@ -147,6 +150,9 @@ $pdf->Ln(10);
 $pdf->Cell(180, 8, utf8_decode('Autres Frais'), 0, 1, 'C', 0);
 $pdf->Ln(10);
 $pdf->BasicTable($header2, $tabloHorsForfait,$tailleColonnes2);
+$pdf->Ln(10);
+$pdf->SetX(105);
+$pdf->Cell("Total ", 0, "Total de tous les frais : ". $totaltotal." euros", 0, "L");
 //$pdf->BasicTable($montants);
 $pdf->Image('../resources/Outils/signatureComptable.jpg', 130, 240);
 //ob_clean();
