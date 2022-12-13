@@ -22,6 +22,9 @@ switch ($action) {
     case 'selectionnerMois':
 //        session_start();
         
+        $uc = "index.php?uc=validFicheFrais";
+        $uc_ac = "index.php?uc=validFicheFrais&action=validerfichefrais";
+        
         $lesVisiteurs = $pdo->getInfosLesVisiteurs();
         
         $Cles = array_keys($lesVisiteurs);
@@ -33,10 +36,14 @@ switch ($action) {
         // les mois étant triés décroissants
         //$lesCles = array_keys($lesMois);
         //$moisASelectionner = $lesCles[0];
-        include PATH_VIEWS . 'v_listeVisiteur.php';
+        
+        include PATH_VIEWS . 'comptable\v_listeVisiteur.php';
         include PATH_VIEWS . 'comptable\v_listeMois.php';
         break;
     case 'validerfichefrais':
+        
+        /*variable récupérant l'action*/
+        $uc_ac = "index.php?uc=validFicheFrais&action=validerfichefrais";
         
         /*infos liste visiteurs*/
         $lesVisiteurs = $pdo->getInfosLesVisiteurs();
@@ -73,7 +80,7 @@ switch ($action) {
         }
         
         /*affichage vue*/
-        include PATH_VIEWS . 'v_listeVisiteur.php';
+        include PATH_VIEWS . 'comptable\v_listeVisiteur.php';
         include PATH_VIEWS . 'comptable\v_listeMois.php';
         include PATH_VIEWS . 'comptable\v_valideFicheFrais.php';
         include PATH_VIEWS . 'comptable\v_tableauHorsForfait.php';
