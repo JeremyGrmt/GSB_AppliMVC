@@ -521,6 +521,15 @@ class PdoGsb
         $requetePrepare->execute();
     }
 
+    public function refuserFraisHorsForfait($idFrais): void {
+        $requetePrepare = $this->connexion->prepare(
+            'UPDATE lignefraishorsforfait '
+                . 'SET lignefraishorsforfait.libelle = CONCAT("REFUSE ", lignefraishorsforfait.libelle)'
+                . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+        );
+        $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
     /**
      * Retourne les mois pour lesquel un visiteur a une fiche de frais
      *

@@ -8,6 +8,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 */
 :root{
     --orange-gsb:#ff9933;
+    cursor:default;
 }
 
 a {
@@ -28,8 +29,8 @@ a:hover {
     background-color: var(--orange-gsb) !important;
     color: white !important;
     font-weight: bold;
-    
 }
+
 .panel-info {
     border-color: var(--orange-gsb);
 }
@@ -43,4 +44,57 @@ table,td,th {
     width: 100%;
     border-radius: 4px;
     border: 1px solid #ccc;
+}
+
+.form-control-input{
+    padding-top: 5px;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.panel-heading-min {
+    background-color: var(--orange-gsb) !important;
+    color: white !important;
+    font-weight: bold;
+    padding: 5px 5px 5px 5px;
+}
+
+.input-table-final:disabled{
+    padding-top: 5px;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+    background-color: rgba(59, 59, 59, 0.20);
+    border-color: rgba(118, 118, 118, 0.3);
+}
+
+.input-justif-final:disabled{
+    padding-top: 5px;
+    margin-left: 5px;
+    width: 5%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+    background-color: rgba(59, 59, 59, 0.20);
+    border-color: rgba(118, 118, 118, 0.3);
+}
+
+.btn-test{
+    margin-bottom: 50px;
+}
+
+.affichagenom{
+    float:right;
+    margin:10px;
+}
+
+.affichagenom b{
+    background-color:var(--orange-gsb);
+}
+
+.form-control{
+    display:flex;
+    width:auto;
 }

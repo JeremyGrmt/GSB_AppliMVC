@@ -1,3 +1,17 @@
+:root{
+    --blue-gsb:#337ab7;
+}
+
 .header {
     margin-top: 10px;
+}
+
+.affichagenom{
+    float:right;
+    margin:10px;
+}
+
+.affichagenom b{
+    background-color:var(--blue-gsb) !important;
+    color:white;
 }
