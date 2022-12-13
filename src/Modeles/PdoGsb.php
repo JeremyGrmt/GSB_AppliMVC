@@ -86,12 +86,11 @@ class PdoGsb
     /**
      * Retourne les informations d'un utilisateur
      *
-     * @param String $login Login du utilisateur
-     * @param String $mdp   Mot de passe du utilisateur
+     * @param String $login Login de l'utilisateur
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
-    public function getInfosVisiteur($login): array|bool
+    public function getInfosUtilisateur($login): array|bool
     {
         //il faudra modifier ici aussi
         $requetePrepare = $this->connexion->prepare(
@@ -109,10 +108,12 @@ class PdoGsb
 
     /**
      * Fonction pour obtenir le mdp hash de l'utilisateur.
-     * @param type $login
-     * @return type mdp utilisateur
+     * 
+     * @param String $login Login de l'utilisateur
+     * 
+     * @return le hash du mot de passe de l'utilisateur appelé 
      */
-    public function getMdpVisiteur($login)
+    public function getMdpUtilisateur($login): array
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT mdp '
@@ -124,7 +125,13 @@ class PdoGsb
         return $requetePrepare->fetch(PDO::FETCH_OBJ)->mdp;
     }
 
-    public function setCodeA2F($id, $code)
+    /**
+     * Fonction qui attribue un code pin généré aléatoirement
+     * 
+     * @param String $id Id de l'utilisateur
+     * @param String $code Code pin généré aléatoirement
+     */
+    public function setCodeA2F($id, $code) : void
     {
         $requetePrepare = $this->connexion->prepare(
             'update utilisateur '
@@ -136,7 +143,14 @@ class PdoGsb
         $requetePrepare->execute();
     }
 
-    public function getCodeVisiteur($id)
+    /**
+     * Fonction qui retourne le code pin présent en base
+     * 
+     * @param String $id Id de l'utilisateur
+     * 
+     * @return le code A2F sous forme de tableau associatif
+     */
+    public function getCodeUtilisateur($id)
     {
         $requetePrepare = $this->connexion->prepare(
             'select utilisateur.codea2f as codea2f '
@@ -150,11 +164,11 @@ class PdoGsb
 
     /**
      * Fonction pour faire un tableau avec id, nom, prenom de tous les visiteurs.
-     * @return array
+     * 
+     * @return tableau associatif contenant l'id, nom prenom et role d'un utilisateur
      */
     public function getInfosLesVisiteurs(): array
     {
-        //il faudra modifier ici aussi
         $requetePrepare = $this->connexion->prepare(
             'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
                 . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
@@ -261,6 +275,10 @@ class PdoGsb
         return $requetePrepare->fetchAll();
     }
 
+    /**
+     * fonction qui récupère le montant unitaire d'un frais forfait
+     * @return array
+     */
     public function getMontantFraisForfait(): array {
         $requetePrepare = $this->connexion->prepare(
                 'SELECT fraisforfait.montant as montant '
@@ -269,6 +287,7 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
     }
+    
     /**
      * Retourne tous les id de la table FraisForfait
      *
