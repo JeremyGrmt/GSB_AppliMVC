@@ -39,6 +39,11 @@ switch ($action) {
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
         $numAnnee = substr($leMois, 0, 4);
         $numMois = substr($leMois, 4, 2);
+        $_SESSION['lemois'] = $leMois;
+        
+        
+        //include_once   Outils/'TestPDFhtml';
+        
         //gestion du cas où il n'y aurait pas de fiche de frais renvoyée
         if($lesInfosFicheFrais != false){
             //$numAnnee = substr($leMois, 0, 4);
@@ -52,5 +57,9 @@ switch ($action) {
         else{
             echo ('aucune fiche de frais enregistrée pour ce mois-ci.');
         }
+        break;
+    case 'voirPdf':
+        include PATH_OUTILS . 'pdf.php';
+        break;
         
 }

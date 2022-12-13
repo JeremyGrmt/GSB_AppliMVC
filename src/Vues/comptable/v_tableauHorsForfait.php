@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Vue Liste des frais hors forfait
  *
@@ -14,15 +13,14 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
 ?>
 <hr>
-
-
+<!--<form method="post" role="form">-->
+ <!--<form action="index.php?uc=validFicheFrais&action=validerMajFraisHorsForfait" method="post" role="form">-->
 <div class="row">
     <div class="panel panel-info">
         <div class="panel-heading">Descriptif des éléments hors forfait</div>
-        
+
         <table class="table table-bordered table-responsive">
             <thead>
                 <tr>
@@ -33,31 +31,33 @@
                 </tr>
             </thead>  
             <tbody>
-            <?php
-            foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
-                $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
-                $date = $unFraisHorsForfait['date'];
-                $montant = $unFraisHorsForfait['montant'];
-                $id = $unFraisHorsForfait['id']; ?>           
-                <tr>
-                    <form action="index.php?uc=validFicheFrais&action=validerMajFraisHorsForfait" method="post">
-                    <td><input class="input-table" type="text" id="date" name="date" required value= <?php echo '"'.$date. '"' ?>></input></td>
-                        <td><input class="input-table" type="text" id="libelle" name="libelle" required value= <?php echo '"'.$libelle. '"' ?>></td>
-                        <td><input class="input-table" type="text" id="montant" name="montant" required value= <?php echo '"'.$montant. '"'  ?>></td>
+<?php
+$i =0;
+foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
+    $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
+    $date = $unFraisHorsForfait['date'];
+    $montant = $unFraisHorsForfait['montant'];
+    $id = $unFraisHorsForfait['id'];
+    ?>           
+                    <tr>       
+                        <td><form id="form<?php echo $i ?>" action="index.php?uc=validFicheFrais&action=validerMajFraisHorsForfait&id=<?php echo  $id ?>" method="POST"><input class="input-table" type="text" id="date" name="date"  required value= <?php echo  '"' .  $date . '"'  ?>></form></td>
+                        <td><input class="input-table" form="form<?php echo $i ?>" type="text" id="libelle" name="libelle" required value= <?php echo '"' . $libelle . '"' ?>></td>
+                        <td><input class="input-table" form="form<?php echo $i ?>" type="text" id="montant" name="montant" required value= <?php echo '"' . $montant . '"' ?>></td>
                         <td>
-                            <button class="btn btn-success" type="submit">Corriger</button>
+                            <button class="btn btn-success" type="submit" form="form<?php echo $i ?>">Corriger</button>
                             <button class="btn btn-danger" type="reset">Réinitialiser</button>
                         </td> 
-                    </form>
-                    
                 </tr>
                 <?php
+                $i++;
             }
             ?>
             </tbody>  
         </table>
+
     </div>
 </div>
+          <!--</form>-->
 <div class="row">
     <form action="action"></form>
 </div>
