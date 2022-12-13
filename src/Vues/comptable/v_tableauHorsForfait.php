@@ -45,7 +45,9 @@ foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
                         <td><input class="input-table" form="form<?php echo $i ?>" type="text" id="montant" name="montant" required value= <?php echo '"' . $montant . '"' ?>></td>
                         <td>
                             <button class="btn btn-success" type="submit" form="form<?php echo $i ?>">Corriger</button>
-                            <button class="btn btn-danger" type="reset">Réinitialiser</button>
+                            <form action="index.php?uc=validFicheFrais&action=refuserFraisHorsForfait&id=<?php echo  $id ?>">
+                            <button class="btn btn-danger" type="submit">refuser</button>
+                            </form>
                         </td> 
                 </tr>
                 <?php
