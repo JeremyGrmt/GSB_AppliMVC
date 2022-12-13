@@ -15,7 +15,7 @@ $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 switch ($action) {
     case 'selectionnerMois':
         $uc="index.php?uc=suiviPaiement";
-        $uc_ac= "index.php?uc=suiviPaiement&action=affichesuivi";
+        $uc_ac= "index.php?uc=suiviPaiement&action=afficheSuivi";
         $lesVisiteurs = $pdo->getInfosLesVisiteurs();
         
         $Cles = array_keys($lesVisiteurs);
@@ -30,9 +30,9 @@ switch ($action) {
         include PATH_VIEWS . 'comptable\v_listeVisiteur.php';
         include PATH_VIEWS . 'comptable\v_listeMois.php';
         break;
-    case 'affichesuivi':
+    case 'afficheSuivi':
         /*variable récupérant l'action*/
-        $uc_ac = "index.php?uc=suiviPaiement&action=affichesuivi";
+        $uc_ac = "index.php?uc=suiviPaiement&action=afficheSuivi";
         
         /*infos liste visiteurs*/
         $lesVisiteurs = $pdo->getInfosLesVisiteurs();
@@ -65,5 +65,9 @@ switch ($action) {
         include PATH_VIEWS . 'comptable\v_listeVisiteur.php';
         include PATH_VIEWS . 'comptable\v_listeMois.php';
         include PATH_VIEWS . 'comptable\v_suiviPaiement.php';
+        break;
+        
+    case 'miseEnPaiement':
+        $pdo->majEtatFicheFrais($idVisiteur,$leMois,"VA");
         break;
 }

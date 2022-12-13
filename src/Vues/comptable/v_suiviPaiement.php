@@ -11,8 +11,7 @@
 <div class="row">    
     <h3>Suivi du paiement des frais : <?php echo $libEtat?></h3>
     <div class="col-md-4">
-        <form method="post" 
-              action="index.php?uc=gererFrais&action=validerMajFraisForfait" 
+        <form method="post"
               role="form">
             <fieldset>       
                 <?php
@@ -26,7 +25,8 @@
                                name="lesFrais[<?php echo $idFrais ?>]"
                                size="10" maxlength="5" 
                                value="<?php echo $quantite ?>" 
-                               class="form-control">
+                               class="input-table-final"
+                               disabled>
                     </div>
                     <?php
                 }
@@ -46,8 +46,7 @@
                 <tr>
                     <th class="date">Date</th>
                     <th class="libelle">Libellé</th>  
-                    <th class="montant">Montant</th>  
-                    <th class="action">&nbsp;</th> 
+                    <th class="montant">Montant</th>
                 </tr>
             </thead>  
             <tbody>
@@ -59,13 +58,9 @@
                 $id = $unFraisHorsForfait['id']; ?>           
                 <tr>
                     <form action="modifierdonnées" method="post">
-                    <td><input class="input-table" type="text" id="date" name="date" required value= <?php echo '"'.$date. '"' ?>></input></td>
-                        <td><input class="input-table" type="text" id="libelle" name="libelle" required value= <?php echo '"'.$libelle. '"' ?>></td>
-                        <td><input class="input-table" type="text" id="montant" name="montant" required value= <?php echo '"'.$montant. '"'  ?>></td>
-                        <td>
-                            <button class="btn btn-success" type="submit">Corriger</button>
-                            <button class="btn btn-danger" type="reset">Réinitialiser</button>
-                        </td> 
+                    <td><input class="input-table-final" type="text" id="date" name="date" required value= <?php echo '"'.$date. '"' ?> disabled="disabled"></input></td>
+                        <td><input class="input-table-final" type="text" id="libelle" name="libelle" required value= <?php echo '"'.$libelle. '"' ?> disabled="disabled"></td>
+                        <td><input class="input-table-final" type="text" id="montant" name="montant" required value= <?php echo '"'.$montant. '"'  ?> disabled="disabled"></td>
                     </form>
                     
                 </tr>
@@ -76,6 +71,20 @@
         </table>
     </div>
 </div>
+
+<!--affichage des justificatifs-->
 <div class="row">
-    <form action="action"></form>
+    <form action="index.php?uc=suiviPaiement&action=miseEnPaiement">
+        <div>
+            <label>Nombre de justificatifs : </label>
+            <input class="input-justif-final" type="text" id="nbJustificatifs" name="nbJustificatifs" required value= <?php echo '"'.$nbJustificatifs. '"'  ?> disabled="disabled">
+        </div>
+        <div class="btn-test">
+            <button class="btn btn-success" type="submit">Mettre en paiement</button>
+        <div>
+    </form>
+</div>
+
+<div class="row">
+    
 </div>

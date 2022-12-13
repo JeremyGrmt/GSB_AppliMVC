@@ -26,7 +26,6 @@
         <meta name="author" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./styles/bootstrap/bootstrap.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
         <?php
@@ -34,16 +33,19 @@
         ?>
         <link href="./styles/styleCompt.css" rel="stylesheet">
         <?php
-        }
+        } else{
         ?>
         <link href="./styles/style.css" rel="stylesheet">
+        <?php }?>
     </head>
+    
     <body>
         <div class="container">
             <?php
             $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             if ($estConnecte) {
                 ?>
+            <div class="affichagenom"> connecté en temps que : <b><?php echo $_SESSION['nom'] ." ". $_SESSION['prenom'] ?></b></div>
             <div class="header">
                 <div class="row vertical-align">
                     <div class="col-md-4">
