@@ -25,8 +25,6 @@ switch ($action) {
         // Afin de sélectionner par défaut le dernier mois dans la zone de liste
         // on demande toutes les clés, et on prend la première,
         // les mois étant triés décroissants
-        //$lesCles = array_keys($lesMois);
-        //$moisASelectionner = $lesCles[0];
         include PATH_VIEWS . 'comptable\v_listeVisiteur.php';
         include PATH_VIEWS . 'comptable\v_listeMois.php';
         break;
@@ -42,6 +40,7 @@ switch ($action) {
         /*infos liste mois*/
         $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
         $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $_SESSION['sessionLeMois']=$leMois;
         $moisASelectionner = $leMois;
         
         /*infos affichage fiches de frais*/
@@ -68,6 +67,20 @@ switch ($action) {
         break;
         
     case 'miseEnPaiement':
-        $pdo->majEtatFicheFrais($idVisiteur,$leMois,"VA");
+        $visiteur = $_SESSION['sessionIdVisiteur'];
+        $mois = $_SESSION['sessionLeMois'];
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($visiteur, $mois);
+        if ($lesInfosFicheFrais['idEtat']=='CL'){
+            $pdo->majEtatFicheFrais($visiteur,$mois,"VA");
+        } else if ($lesInfosFicheFrais['idEtat']=='VA'){
+            $pdo->majEtatFicheFrais($visiteur,$mois,"RB");
+        }
+        
+        //on revient à la vue pour récupérer un visiteur et un mois
+        $uc="index.php?uc=suiviPaiement";
+        $uc_ac= "index.php?uc=suiviPaiement&action=afficheSuivi";
+        
+        include PATH_VIEWS . 'comptable\v_listeVisiteur.php';
+        include PATH_VIEWS . 'comptable\v_listeMois.php';
         break;
 }
