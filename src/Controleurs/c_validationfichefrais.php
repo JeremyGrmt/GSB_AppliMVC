@@ -110,25 +110,11 @@ switch ($action) {
 //            include PATH_VIEWS . 'v_erreurs.php';
 //        }
         break;
-        
-        
-//    case 'validerCreationFrais':
-//        $dateFrais = Utilitaires::dateAnglaisVersFrancais(
-//            filter_input(INPUT_POST, 'dateFrais', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-//        );
-//        $libelle = filter_input(INPUT_POST, 'libelle', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-//        $montant = filter_input(INPUT_POST, 'montant', FILTER_VALIDATE_FLOAT);
-//        Utilitaires::valideInfosFrais($dateFrais, $libelle, $montant);
-//        if (Utilitaires::nbErreurs() != 0) {
-//            include PATH_VIEWS . 'v_erreurs.php';
-//        } else {
-//            $pdo->creeNouveauFraisHorsForfait($idVisiteur, $mois, $libelle, $dateFrais, $montant);
-//        }
-//        break;
-//    case 'supprimerFrais':
-//        $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-//        $pdo->supprimerFraisHorsForfait($idFrais);
-//        break;
+
+    case 'refuserFraisHorsForfait':
+        $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $pdo->refuserFraisHorsForfait($idFrais);
+        break;
 }
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
