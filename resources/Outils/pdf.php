@@ -1,14 +1,18 @@
 <?php
-
+/**
+ * Classe pour générer une fiche de frais en pdf.
+ */
 define('PATH_ROOT', '../public');
 require('fpdf185/fpdf.php');
 
 use Modeles\PdoGsb;
 
-//namespace Outils;
 
 class pdf extends FPDF {
 
+    /**
+     * fonction pour afficher le header du pdf avec le logo.
+     */
     function Header() {
         // Logo : 8 >position à gauche du document (en mm), 2 >position en haut du document, 80 >largeur de l'image en mm). La hauteur est calculée automatiquement.
         $this->Image(PATH_ROOT . '/images/logo.jpg', 8, 2);
@@ -26,7 +30,13 @@ class pdf extends FPDF {
         // Saut de ligne 10 mm
     }
 
-    function BasicTable($header, $data, $tailleColonnes) {
+    /**
+     * 
+     * @param array $header tableau du header déjà choisi.
+     * @param array $data toutes les données à mettre dans le tableau à partir d'un tableau de tableaux.
+     * @param array $tailleColonnes taille des colonnes prédéfinis pour éviter débordement.
+     */
+    function BasicTable(array $header, array $data, array $tailleColonnes) {
         // Header
         $i = 0;
         $this->setTextColor(0, 0, 230);
@@ -52,6 +62,9 @@ class pdf extends FPDF {
         }
     }
 
+    /**
+     * Footer avec le numéro de la page.
+     */
     function Footer() {
         // Positionnement à 1,5 cm du bas
         $this->SetY(-15);
@@ -64,18 +77,18 @@ class pdf extends FPDF {
 }
 
 $pdo = PdoGsb::getPdoGsb();
-$idVisiteur = $_SESSION['idVisiteur'];
-$nomVisiteur = $_SESSION['nom'];
-$prenomVisiteur = $_SESSION['prenom'];
-$lemois = $_SESSION['lemois'];
-$subMois = substr($lemois, 4, 6);
-$subAnnee = substr($lemois, 0, 4);
+$idVisiteur = $_SESSION['idVisiteur']; //id du visiteur
+$nomVisiteur = $_SESSION['nom']; //nom du visiteur
+$prenomVisiteur = $_SESSION['prenom']; //prénom du visiteur
+$lemois = $_SESSION['lemois']; //le mois  et l'année de la fiche de frais séléctionnée
+$subMois = substr($lemois, 4, 6); //récup uniquement du mois
+$subAnnee = substr($lemois, 0, 4); //récup uniquement de l'année
 //$nomVisiteur = $pdo->getNomVisiteur($idVisiteur);
-$lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
-$tablo = $pdo->getLesFraisForfait($idVisiteur, $lemois);
-$lesMontant = $pdo->getMontantFraisForfait();
-$lesMontantHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $lemois);
-$nbJustificatif = $pdo->getNbjustificatifs($idVisiteur, $lemois);
+//$lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
+$tablo = $pdo->getLesFraisForfait($idVisiteur, $lemois); //tableau des frais du visiteur et du mois séléctionnés
+$lesMontant = $pdo->getMontantFraisForfait(); //obtenir le montant unitaire de chaque frais forfait
+$lesMontantHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $lemois); //montant des frais hors forfait
+$nbJustificatif = $pdo->getNbjustificatifs($idVisiteur, $lemois); //nb de justificatif
 $totaltotal = 0;
 //ob_start();
 ob_clean();
