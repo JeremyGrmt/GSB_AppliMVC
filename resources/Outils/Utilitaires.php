@@ -267,4 +267,21 @@ abstract class Utilitaires
             return count($_REQUEST['erreurs']);
         }
     }
+    
+    public static function indemniteKilometrique(string $puissance): float
+    {
+        switch ($puissance){
+            case '4CV Diesel':
+                return 0.52;
+                
+            case '5/6CV Diesel':
+                return 0.58;
+                
+            case '4CV Essence':
+                return 0.62;
+                
+            case '5/6CV Essence':
+                return 0.67;
+        }
+    }
 }

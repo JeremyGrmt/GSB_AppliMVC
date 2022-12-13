@@ -6,6 +6,7 @@ define('PATH_ROOT', '../public');
 require('fpdf185/fpdf.php');
 
 use Modeles\PdoGsb;
+use Outils\Utilitaires;
 
 
 class pdf extends FPDF {
@@ -127,12 +128,17 @@ foreach ($tablo as $unFrais) {
     array_push($datasTablo, $libelleQuantite);
     $libelleQuantite = array();
 }
+$montantPuissance = 1;
 foreach ($lesMontant as $unFrais) {
     $montant = $unFrais['montant'];
+//    if ($montantPuissance == 2){
+//        $montant = Utilitaires::indemniteKilometrique($colonneNomPuissance);
+//    }
     $total = floatval($datasTablo[$i][1]) * floatval($montant);
     array_push($datasTablo[$i], $montant);
     array_push($datasTablo[$i], $total);
     $i++;
+    $montantPuissance++;
     $totaltotal += $total;
 }
 
