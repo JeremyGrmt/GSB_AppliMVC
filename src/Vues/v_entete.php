@@ -33,9 +33,10 @@
         ?>
         <link href="./styles/styleCompt.css" rel="stylesheet">
         <?php
-        }
+        } else{
         ?>
         <link href="./styles/style.css" rel="stylesheet">
+        <?php }?>
     </head>
     
     <body>
