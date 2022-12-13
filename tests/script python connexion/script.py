@@ -7,6 +7,7 @@ login = ['lvillachane','dandre','cbedos','ltusseau','pbentot',
 'cclepkens','vcottin','fdaburon','pde','mdebelle','jdebelle',
 'mdebroise','ndesmarquest','pdesnost','fdudouit','cduncombe',
 'cenault','veynde','jfinck','ffremont','agest']
+
 mdp = ['jux7g','oppg5','gmhxd','ktp3s','doyw1',
 'hrjfs','4vbnd', 's1y1r','uf7r3','6u8dc',
 'u817o','bw1us','2hoh9','7oqpv','gk9kx',
@@ -20,7 +21,7 @@ driver = webdriver.Chrome()
 driver.get("http://"+domainName+"/index.php?uc=connexion&action=valideConnexion")
 
 i=0
-while i<len(login)-1:
+while i<len(login):
         driver.find_element(By.CSS_SELECTOR, 'input[name="login"]').clear()
         driver.find_element(By.CSS_SELECTOR, 'input[name="login"]').send_keys(login[i])
         driver.find_element(By.CSS_SELECTOR, 'input[name="mdp"]').clear()
