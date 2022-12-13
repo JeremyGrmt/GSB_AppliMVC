@@ -536,7 +536,7 @@ class PdoGsb
     public function refuserFraisHorsForfait($idFrais): void {
         $requetePrepare = $this->connexion->prepare(
             'UPDATE lignefraishorsforfait '
-                . 'SET lignefraishorsforfait.libelle = CONCAT("REFUSE ", lignefraishorsforfait.libelle)'
+                . 'SET lignefraishorsforfait.libelle = CONCAT("REFUSE ", libelle)'
                 . 'WHERE lignefraishorsforfait.id = :unIdFrais'
         );
         $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);

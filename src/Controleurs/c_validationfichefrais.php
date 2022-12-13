@@ -44,6 +44,7 @@ switch ($action) {
     case 'validerfichefrais':
         
         /*variable récupérant l'action*/
+        $uc = "index.php?uc=validFicheFrais";
         $uc_ac = "index.php?uc=validFicheFrais&action=validerfichefrais";
         
         /*infos liste visiteurs*/
@@ -101,9 +102,20 @@ switch ($action) {
         }
         break;
     case 'validerMajFraisHorsForfait':
+        $uc = "index.php?uc=validFicheFrais";
+        $uc_ac = "index.php?uc=validFicheFrais&action=validerfichefrais";
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+        $libelle = filter_input(INPUT_POST, 'libelle', FILTER_DEFAULT);
+        $date= filter_input(INPUT_POST, 'date', FILTER_DEFAULT);
+        $montant = filter_input(INPUT_POST, 'montant', FILTER_DEFAULT);
         //if (Utilitaires::lesQteFraisValides($lesFrais)) {
-            $pdo->MajLigneFraisHorsForfait($_SESSION['sessionIdVisiteur'], $_SESSION['leMois'], $_POST['libelle'],$_POST['date'],$_POST['montant'], $_GET['id']/*$lesFrais*/);
+            $pdo->MajLigneFraisHorsForfait($_SESSION['sessionIdVisiteur'], $_SESSION['leMois'], $libelle,$date,$montant, $_GET['id']/*$lesFrais*/);
+            
+            /*affichage vue*/
+        include PATH_VIEWS . 'comptable\v_listeVisiteur.php';
+        include PATH_VIEWS . 'comptable\v_listeMois.php';
+        include PATH_VIEWS . 'comptable\v_valideFicheFrais.php';
+        include PATH_VIEWS . 'comptable\v_tableauHorsForfait.php';
             
        // } else {
             
@@ -113,7 +125,9 @@ switch ($action) {
         break;
 
     case 'refuserFraisHorsForfait':
-        $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $uc = "index.php?uc=validFicheFrais";
+        $uc_ac = "index.php?uc=validFicheFrais&action=validerfichefrais";
+        $idFrais = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $pdo->refuserFraisHorsForfait($idFrais);
         break;
 }

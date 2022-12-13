@@ -57,11 +57,11 @@
                 $montant = $unFraisHorsForfait['montant'];
                 $id = $unFraisHorsForfait['id']; ?>           
                 <tr>
-                    <form action="modifierdonnées" method="post">
+
                     <td><input class="input-table-final" type="text" id="date" name="date" required value= <?php echo '"'.$date. '"' ?> disabled="disabled"></input></td>
                         <td><input class="input-table-final" type="text" id="libelle" name="libelle" required value= <?php echo '"'.$libelle. '"' ?> disabled="disabled"></td>
                         <td><input class="input-table-final" type="text" id="montant" name="montant" required value= <?php echo '"'.$montant. '"'  ?> disabled="disabled"></td>
-                    </form>
+
                     
                 </tr>
                 <?php

@@ -13,6 +13,8 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
+
+use Outils\Utilitaires;
 ?>
 <hr>
 <!--<form method="post" role="form">-->
@@ -45,8 +47,8 @@ foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
                         <td><input class="input-table" form="form<?php echo $i ?>" type="text" id="montant" name="montant" required value= <?php echo '"' . $montant . '"' ?>></td>
                         <td>
                             <button class="btn btn-success" type="submit" form="form<?php echo $i ?>">Corriger</button>
-                            <form action="index.php?uc=validFicheFrais&action=refuserFraisHorsForfait&id=<?php echo  $id ?>">
-                            <button class="btn btn-danger" type="submit">refuser</button>
+                            <form id="formrefus" action="index.php?uc=validFicheFrais&action=refuserFraisHorsForfait&id=<?php echo  $id ?>">
+                            <button class="btn btn-danger" type="submit" form="formrefus">refuser</button>
                             </form>
                         </td> 
                 </tr>
