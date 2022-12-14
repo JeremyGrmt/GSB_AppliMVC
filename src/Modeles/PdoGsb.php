@@ -633,4 +633,25 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    
+    public function recupPuissancesVoiture():array{
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT voiture.id as id, voiture.voiture as voiture, voiture.prix as prix '.
+                'from voiture'
+        );
+
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+    
+    public function majPuissanceVoiture($idVisiteur,$puissanceRecup):void{
+        $requetePrepare = $this->connexion->prepare(
+            'UPDATE Utilisateur '
+                . 'SET idvoiture = :unePuissance '
+                . 'WHERE utilisateur.id = :unIdVisiteur '
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unePuissance', $puissanceRecup, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
 }
