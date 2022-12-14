@@ -32,8 +32,9 @@ switch ($action) {
     case 'validerMajFraisForfait':
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
         $puissanceVoiture = filter_input(INPUT_POST, 'typeVehicule', FILTER_DEFAULT);
+        $prixPuissanceVoiture = $pdo->recupPrixPuissance($puissanceVoiture);
         if (Utilitaires::lesQteFraisValides($lesFrais)) {
-            $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais, $puissanceVoiture);
+            $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais, $prixPuissanceVoiture['montant']);
 
             $pdo->majPuissanceVoiture($idVisiteur,$puissanceVoiture);
         } else {

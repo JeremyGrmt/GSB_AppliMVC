@@ -650,25 +650,35 @@ class PdoGsb
     
     public function recupPuissancesVoiture():array{
         $requetePrepare = $this->connexion->prepare(
-            'SELECT voiture.id as id, voiture.voiture as voiture, voiture.prix as prix '.
-                'from voiture'
+            'SELECT typevoiture .id as id, typevoiture .libelle as libelle, typevoiture .montant as montant '.
+                'from typevoiture '
         );
 
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
     }
     
-    public function recupPrixPuissance($idVisiteur,$unMois):float{
+    public function recupPrixLigneFicheFrais($idVisiteur,$mois):array {
         $km = 'KM';
         $requetePrepare = $this->connexion->prepare(
-            'select prix from voiture '.
-            'where voiture.id = (select prxKm from lignefraisforfait '.
-            'where lignefraisforfait.idVisiteur = :unVisiteur '.
-            'and lignefraisforfait.mois = :lemois and lignefraisforfait.idfraisforfait = :km '
-        );
-        $requetePrepare->bindParam(':unVisiteur', $idVisiteur, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':lemois', $unMois, PDO::PARAM_STR);
+                'select distinct prxKm from lignefraisforfait '.
+                'where idvisiteur = :visiteur '.
+                'and mois = :mois '.
+                'and idfraisforfait = :km'
+                );
+        $requetePrepare->bindParam(':visiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
         $requetePrepare->bindParam(':km', $km, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
+    }
+    
+    public function recupPrixPuissance($idPuissance):array{
+        $requetePrepare = $this->connexion->prepare(
+            'select typevoiture .montant as montant from typevoiture  '.
+            'where typevoiture .id = :idPuissance'
+        );
+        $requetePrepare->bindParam(':idPuissance', $idPuissance, PDO::PARAM_STR);
         $requetePrepare->execute();
         return $requetePrepare->fetch();
     }

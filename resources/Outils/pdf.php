@@ -91,7 +91,7 @@ $lesMontant = $pdo->getMontantFraisForfait(); //obtenir le montant unitaire de c
 $lesMontantHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $lemois); //montant des frais hors forfait
 $nbJustificatif = $pdo->getNbjustificatifs($idVisiteur, $lemois); //nb de justificatif
 $totaltotal = 0;
-$prixKilometrique = $pdo->recupPrixPuissance($idVisiteur,$lemois);
+$prixKilometrique = $pdo->recupPrixLigneFicheFrais($idVisiteur,$lemois);
 //ob_start();
 ob_clean();
 $pdf = new pdf();
@@ -132,19 +132,20 @@ foreach ($tablo as $unFrais) {
 }
 $montantPuissance = 1;
 foreach ($lesMontant as $unFrais) {
-    if ($montantPrix = 1){
-        array_push($datasTablo[$i],$prixKilometrique['prix']);
+    if ($montantPrix == 1){
+        array_push($datasTablo[$i],$prixKilometrique['prxKm']);
+        $total = floatval($datasTablo[$i][1]) * floatval($prixKilometrique['prxKm']);
     }
     else{
         $montant = $unFrais['montant'];
         array_push($datasTablo[$i], $montant);
+        $total = floatval($datasTablo[$i][1]) * floatval($montant);
     }
     
 //    if ($montantPuissance == 2){
 //        $montant = Utilitaires::indemniteKilometrique($colonneNomPuissance);
 //    }
-    $total = floatval($datasTablo[$i][1]) * floatval($montant);
-    
+    $montantPrix++;
     array_push($datasTablo[$i], $total);
     $i++;
     $montantPuissance++;
