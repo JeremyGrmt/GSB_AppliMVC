@@ -38,18 +38,17 @@ $i =0;
 foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
     $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
     $date = $unFraisHorsForfait['date'];
+    //$date = implode('-', array_reverse(explode('/', $unFraisHorsForfait['date'])));
     $montant = $unFraisHorsForfait['montant'];
     $id = $unFraisHorsForfait['id'];
     ?>           
                     <tr>       
-                        <td><form id="form<?php echo $i ?>" action="index.php?uc=validFicheFrais&action=validerMajFraisHorsForfait&id=<?php echo  $id ?>" method="POST"><input class="input-table" type="text" id="date" name="date"  required value= <?php echo  '"' .  $date . '"'  ?>></form></td>
+                        <td><form id="form<?php echo $i ?>" action="index.php?uc=validFicheFrais&action=validerMajFraisHorsForfait&id=<?php echo  $id ?>" method="POST"><input class="input-table" type="string" id="date" name="date"  required value= <?php echo  '"' .  $date . '"'  ?>></form></td>
                         <td><input class="input-table" form="form<?php echo $i ?>" type="text" id="libelle" name="libelle" required value= <?php echo '"' . $libelle . '"' ?>></td>
                         <td><input class="input-table" form="form<?php echo $i ?>" type="text" id="montant" name="montant" required value= <?php echo '"' . $montant . '"' ?>></td>
                         <td>
-                            <button class="btn btn-success" type="submit" form="form<?php echo $i ?>">Corriger</button>
-                            <form id="formrefus" action="index.php?uc=validFicheFrais&action=refuserFraisHorsForfait&id=<?php echo  $id ?>">
-                            <button class="btn btn-danger" type="submit" form="formrefus">refuser</button>
-                            </form>
+                            <button class="btn btn-success" type="submit" form="form<?php echo $i ?>" formaction="index.php?uc=validFicheFrais&action=validerMajFraisHorsForfait&id=<?php echo  $id ?>">Corriger</button>
+                            <button class="btn btn-danger" type="submit" form="form<?php echo $i ?>" formaction="index.php?uc=validFicheFrais&action=validerMajFraisHorsForfait&id=<?php echo  $id ?>&REFUS=REFUSE">refuser</button>
                         </td> 
                 </tr>
                 <?php

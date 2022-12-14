@@ -109,7 +109,13 @@ switch ($action) {
         $date= filter_input(INPUT_POST, 'date', FILTER_DEFAULT);
         $montant = filter_input(INPUT_POST, 'montant', FILTER_DEFAULT);
         //if (Utilitaires::lesQteFraisValides($lesFrais)) {
-            $pdo->MajLigneFraisHorsForfait($_SESSION['sessionIdVisiteur'], $_SESSION['leMois'], $libelle,$date,$montant, $_GET['id']/*$lesFrais*/);
+        if($_GET['REFUS'] != 'REFUSE'){
+            $pdo->MajLigneFraisHorsForfait($_SESSION['sessionIdVisiteur'], $_SESSION['leMois'], $libelle,$date,$montant, $_GET['id']);
+        }
+        else{
+            $pdo->MajLigneFraisHorsForfait($_SESSION['sessionIdVisiteur'], $_SESSION['leMois'], $libelle,$date,$montant, $_GET['id'], $_GET['REFUS']);
+        }
+            
             
             /*affichage vue*/
         include PATH_VIEWS . 'comptable\v_listeVisiteur.php';

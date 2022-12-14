@@ -485,7 +485,7 @@ class PdoGsb
      *
      * @return null
      */
-    public function MajLigneFraisHorsForfait($idVisiteur, $mois, $libelle, $date, $montant,$id)
+    public function MajLigneFraisHorsForfait($idVisiteur, $mois, string $libelle, string $date, string $montant, int$id, ?string $refus)
     //public function MajFraisHorsForfait($idVisiteur, $mois, $lesFrais): void
     {
 //        $lesCles = array_keys($lesFrais);
@@ -508,9 +508,16 @@ class PdoGsb
 //            $requetePrepare->bindParam(':uneDateFr', $dateFr, PDO::PARAM_STR);
              //$requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
              //$requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
-             $requetePrepare->bindParam(':unLibelle', $libelle, PDO::PARAM_STR);
-             $requetePrepare->bindParam(':uneDateFr', $dateFr, PDO::PARAM_STR);
-             $requetePrepare->bindParam(':unMontant', $montant, PDO::PARAM_INT);
+            if($refus != null){
+                $libelle = $refus. ' '.$libelle;
+                 $requetePrepare->bindParam(':unLibelle', $libelle, PDO::PARAM_STR);
+             }
+             else{
+                $requetePrepare->bindParam(':unLibelle', $libelle, PDO::PARAM_STR);
+             }
+             
+             $requetePrepare->bindParam(':uneDateFr', $dateFr, PDO::PARAM_STR);   
+             $requetePrepare->bindParam(':unMontant', $montant, PDO::PARAM_STR);
              $requetePrepare->bindParam(':unId', $id, PDO::PARAM_INT);
             $requetePrepare->execute();
         
