@@ -654,4 +654,21 @@ class PdoGsb
         $requetePrepare->bindParam(':unePuissance', $puissanceRecup, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    
+    /**
+    futur fonction pour recup le montant a partir de idvoiture dans utilisateur
+      public function recupPrixVoiture($idVoiture):float{
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT voiture.prix as prix '.
+     *      'from voiture '.
+     *      'where voiture.id = :idVoiture '
+        );
+
+        $requetePrepare->bindParam(':idVoiture', $idVoiture, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $prix = $laLigne['prix'];
+        return prux
+     }
+     */
 }
