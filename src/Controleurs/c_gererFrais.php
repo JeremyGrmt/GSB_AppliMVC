@@ -22,16 +22,19 @@ $mois = Utilitaires::getMois(date('d/m/Y'));
 $numAnnee = substr($mois, 0, 4);
 $numMois = substr($mois, 4, 2);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$typesVoitures = $pdo->recupPuissancesVoiture();
 switch ($action) {
     case 'saisirFrais':
         if ($pdo->estPremierFraisMois($idVisiteur, $mois)) {
-            $pdo->creeNouvellesLignesFrais($idVisiteur, $mois);
+            $pdo->creeNouvellesLignesFrais($idVisiteur, $mois, $typesVoitures);
         }
         break;
     case 'validerMajFraisForfait':
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+        $puissanceVoiture = filter_input(INPUT_POST, 'typeVehicule', FILTER_DEFAULT);
         if (Utilitaires::lesQteFraisValides($lesFrais)) {
             $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais, $puissanceVoiture);
+
             $pdo->majPuissanceVoiture($idVisiteur,$puissanceVoiture);
         } else {
             Utilitaires::ajouterErreur('Les valeurs des frais doivent être numériques');

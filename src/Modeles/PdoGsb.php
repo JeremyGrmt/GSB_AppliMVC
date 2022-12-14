@@ -86,12 +86,11 @@ class PdoGsb
     /**
      * Retourne les informations d'un utilisateur
      *
-     * @param String $login Login du utilisateur
-     * @param String $mdp   Mot de passe du utilisateur
+     * @param String $login Login de l'utilisateur
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
-    public function getInfosVisiteur($login): array|bool
+    public function getInfosUtilisateur($login): array|bool
     {
         //il faudra modifier ici aussi
         $requetePrepare = $this->connexion->prepare(
@@ -109,10 +108,12 @@ class PdoGsb
 
     /**
      * Fonction pour obtenir le mdp hash de l'utilisateur.
-     * @param type $login
-     * @return type mdp utilisateur
+     * 
+     * @param String $login Login de l'utilisateur
+     * 
+     * @return le hash du mot de passe de l'utilisateur appelé 
      */
-    public function getMdpVisiteur($login)
+    public function getMdpUtilisateur($login): string
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT mdp '
@@ -124,7 +125,13 @@ class PdoGsb
         return $requetePrepare->fetch(PDO::FETCH_OBJ)->mdp;
     }
 
-    public function setCodeA2F($id, $code)
+    /**
+     * Fonction qui attribue un code pin généré aléatoirement
+     * 
+     * @param String $id Id de l'utilisateur
+     * @param String $code Code pin généré aléatoirement
+     */
+    public function setCodeA2F($id, $code) : void
     {
         $requetePrepare = $this->connexion->prepare(
             'update utilisateur '
@@ -136,7 +143,14 @@ class PdoGsb
         $requetePrepare->execute();
     }
 
-    public function getCodeVisiteur($id)
+    /**
+     * Fonction qui retourne le code pin présent en base
+     * 
+     * @param String $id Id de l'utilisateur
+     * 
+     * @return le code A2F sous forme de tableau associatif
+     */
+    public function getCodeUtilisateur($id)
     {
         $requetePrepare = $this->connexion->prepare(
             'select utilisateur.codea2f as codea2f '
@@ -150,11 +164,11 @@ class PdoGsb
 
     /**
      * Fonction pour faire un tableau avec id, nom, prenom de tous les visiteurs.
-     * @return array
+     * 
+     * @return tableau associatif contenant l'id, nom prenom et role d'un utilisateur
      */
     public function getInfosLesVisiteurs(): array
     {
-        //il faudra modifier ici aussi
         $requetePrepare = $this->connexion->prepare(
             'SELECT utilisateur.id AS id, utilisateur.nom AS nom, '
                 . 'utilisateur.prenom AS prenom, user_roles.id_role AS role '
@@ -261,6 +275,10 @@ class PdoGsb
         return $requetePrepare->fetchAll();
     }
 
+    /**
+     * fonction qui récupère le montant unitaire d'un frais forfait
+     * @return array
+     */
     public function getMontantFraisForfait(): array {
         $requetePrepare = $this->connexion->prepare(
                 'SELECT fraisforfait.montant as montant '
@@ -269,6 +287,7 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
     }
+    
     /**
      * Retourne tous les id de la table FraisForfait
      *
@@ -303,17 +322,29 @@ class PdoGsb
             $qte = $lesFrais[$unIdFrais];
             $requetePrepare = $this->connexion->prepare(
                 'UPDATE lignefraisforfait '
-                    . 'SET lignefraisforfait.quantite = :uneQte, lignefraisforfait.prxKm = :puissance '
+                    . 'SET lignefraisforfait.quantite = :uneQte '
                     . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
                     . 'AND lignefraisforfait.mois = :unMois '
                     . 'AND lignefraisforfait.idfraisforfait = :idFrais'
             );
             $requetePrepare->bindParam(':uneQte', $qte, PDO::PARAM_INT);
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-            $requetePrepare->bindParam(':puissance', $puissance, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->bindParam(':idFrais', $unIdFrais, PDO::PARAM_STR);
+            $Km = 'KM';
+            $requetePrepare2 = $this->connexion->prepare(
+                'UPDATE lignefraisforfait '
+                    . 'SET lignefraisforfait.prxKm = :puissance '
+                    . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+                    . 'AND lignefraisforfait.mois = :unMois '
+                    . 'AND lignefraisforfait.idfraisforfait = :Km '
+            );
+            $requetePrepare2->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare2->bindParam(':puissance', $puissance, PDO::PARAM_STR);
+            $requetePrepare2->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare2->bindParam(':Km', $Km, PDO::PARAM_STR);
             $requetePrepare->execute();
+            $requetePrepare2->execute();
         }
     }
 
@@ -429,7 +460,7 @@ class PdoGsb
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->bindParam(':idFrais', $unIdFrais['idfrais'], PDO::PARAM_STR);
-            $requetePrepare->bindParam(':puissanceVoiture', $puissanceVoiture, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':puissanceVoiture', $puissanceVoiture['id'], PDO::PARAM_STR);
             $requetePrepare->execute();
         }
     }
@@ -616,4 +647,57 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    
+    public function recupPuissancesVoiture():array{
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT voiture.id as id, voiture.voiture as voiture, voiture.prix as prix '.
+                'from voiture'
+        );
+
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+    
+    public function recupPrixPuissance($idVisiteur,$unMois):float{
+        $km = 'KM';
+        $requetePrepare = $this->connexion->prepare(
+            'select prix from voiture '.
+            'where voiture.id = (select prxKm from lignefraisforfait '.
+            'where lignefraisforfait.idVisiteur = :unVisiteur '.
+            'and lignefraisforfait.mois = :lemois and lignefraisforfait.idfraisforfait = :km '
+        );
+        $requetePrepare->bindParam(':unVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':lemois', $unMois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':km', $km, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
+    }
+    
+    public function majPuissanceVoiture($idVisiteur,$puissanceRecup):void{
+        $requetePrepare = $this->connexion->prepare(
+            'UPDATE Utilisateur '
+                . 'SET idvoiture = :unePuissance '
+                . 'WHERE utilisateur.id = :unIdVisiteur '
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unePuissance', $puissanceRecup, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    /**
+    futur fonction pour recup le montant a partir de idvoiture dans utilisateur
+      public function recupPrixVoiture($idVoiture):float{
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT voiture.prix as prix '.
+     *      'from voiture '.
+     *      'where voiture.id = :idVoiture '
+        );
+
+        $requetePrepare->bindParam(':idVoiture', $idVoiture, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $prix = $laLigne['prix'];
+        return prux
+     }
+     */
 }

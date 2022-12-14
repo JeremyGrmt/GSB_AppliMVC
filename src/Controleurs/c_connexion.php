@@ -29,8 +29,8 @@ switch ($action) {
     case 'valideConnexion':
         $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $utilisateur = $pdo->getInfosVisiteur($login);
-        if (!password_verify($mdp,$pdo->getMdpVisiteur($login))) {
+        $utilisateur = $pdo->getInfosUtilisateur($login);
+        if (!password_verify($mdp,$pdo->getMdpUtilisateur($login))) {
             Utilitaires::ajouterErreur('Login ou mot de passe incorrect');
             include PATH_VIEWS . 'v_erreurs.php';
             include PATH_VIEWS . 'v_connexion.php';
@@ -51,7 +51,7 @@ switch ($action) {
         break;
     case 'valideA2FConnexion':
         $code = filter_input(INPUT_POST,'code',FILTER_SANITIZE_NUMBER_INT);
-        if ($pdo->getCodeVisiteur($_SESSION['idVisiteur'])!==$code){
+        if ($pdo->getCodeUtilisateur($_SESSION['idVisiteur'])!==$code){
             include PATH_VIEWS . 'v_erreurs.php';
             include PATH_VIEWS . 'v_code2facteurs.php';
         } else{

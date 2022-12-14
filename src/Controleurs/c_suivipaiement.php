@@ -30,6 +30,7 @@ switch ($action) {
         break;
     case 'afficheSuivi':
         /*variable récupérant l'action*/
+        $uc="index.php?uc=suiviPaiement";
         $uc_ac = "index.php?uc=suiviPaiement&action=afficheSuivi";
         
         /*infos liste visiteurs*/

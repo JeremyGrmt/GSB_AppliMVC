@@ -6,6 +6,7 @@ define('PATH_ROOT', '../public');
 require('fpdf185/fpdf.php');
 
 use Modeles\PdoGsb;
+use Outils\Utilitaires;
 
 
 class pdf extends FPDF {
@@ -90,6 +91,7 @@ $lesMontant = $pdo->getMontantFraisForfait(); //obtenir le montant unitaire de c
 $lesMontantHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $lemois); //montant des frais hors forfait
 $nbJustificatif = $pdo->getNbjustificatifs($idVisiteur, $lemois); //nb de justificatif
 $totaltotal = 0;
+$prixKilometrique = $pdo->recupPrixPuissance($idVisiteur,$lemois);
 //ob_start();
 ob_clean();
 $pdf = new pdf();
@@ -119,6 +121,7 @@ $tailleColonnes1 = array (
 $tailleColonnes2 = array (
     45, 100, 30
 );
+$montantPrix = 0;
 foreach ($tablo as $unFrais) {
     $libelle = $unFrais['libelle'];
     $quantite = $unFrais['quantite'];
@@ -127,12 +130,24 @@ foreach ($tablo as $unFrais) {
     array_push($datasTablo, $libelleQuantite);
     $libelleQuantite = array();
 }
+$montantPuissance = 1;
 foreach ($lesMontant as $unFrais) {
-    $montant = $unFrais['montant'];
+    if ($montantPrix = 1){
+        array_push($datasTablo[$i],$prixKilometrique['prix']);
+    }
+    else{
+        $montant = $unFrais['montant'];
+        array_push($datasTablo[$i], $montant);
+    }
+    
+//    if ($montantPuissance == 2){
+//        $montant = Utilitaires::indemniteKilometrique($colonneNomPuissance);
+//    }
     $total = floatval($datasTablo[$i][1]) * floatval($montant);
-    array_push($datasTablo[$i], $montant);
+    
     array_push($datasTablo[$i], $total);
     $i++;
+    $montantPuissance++;
     $totaltotal += $total;
 }
 
