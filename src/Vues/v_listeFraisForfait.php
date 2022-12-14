@@ -44,7 +44,7 @@
                 ?>
                 <div class="form-group">
                     <label for="typeVehicule">Quel est votre type de vehicule : </label>
-                    <select name="typeVehicule" id="typeVehicule" required>
+                    <select class="form-control" name="typeVehicule" id="typeVehicule" required>
                         <option value="">--Selectionnez le type de votre vehicule--</option>
                         <option value="1">4CV Diesel</option>
                         <option value="2">5/6CV Diesel</option>
