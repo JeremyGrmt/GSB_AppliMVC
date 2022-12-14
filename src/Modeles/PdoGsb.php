@@ -296,20 +296,21 @@ class PdoGsb
      *
      * @return null
      */
-    public function majFraisForfait($idVisiteur, $mois, $lesFrais): void
+    public function majFraisForfait($idVisiteur, $mois, $lesFrais, $puissance): void
     {
         $lesCles = array_keys($lesFrais);
         foreach ($lesCles as $unIdFrais) {
             $qte = $lesFrais[$unIdFrais];
             $requetePrepare = $this->connexion->prepare(
                 'UPDATE lignefraisforfait '
-                    . 'SET lignefraisforfait.quantite = :uneQte '
+                    . 'SET lignefraisforfait.quantite = :uneQte, lignefraisforfait.prxKm = :puissance '
                     . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
                     . 'AND lignefraisforfait.mois = :unMois '
                     . 'AND lignefraisforfait.idfraisforfait = :idFrais'
             );
             $requetePrepare->bindParam(':uneQte', $qte, PDO::PARAM_INT);
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':puissance', $puissance, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->bindParam(':idFrais', $unIdFrais, PDO::PARAM_STR);
             $requetePrepare->execute();
@@ -403,7 +404,7 @@ class PdoGsb
      *
      * @return null
      */
-    public function creeNouvellesLignesFrais($idVisiteur, $mois): void
+    public function creeNouvellesLignesFrais($idVisiteur, $mois, $puissanceVoiture): void
     {
         $dernierMois = $this->dernierMoisSaisi($idVisiteur);
         $laDerniereFiche = $this->getLesInfosFicheFrais($idVisiteur, $dernierMois);
@@ -423,11 +424,12 @@ class PdoGsb
             $requetePrepare = $this->connexion->prepare(
                 'INSERT INTO lignefraisforfait (idvisiteur,mois,'
                     . 'idfraisforfait,quantite) '
-                    . 'VALUES(:unIdVisiteur, :unMois, :idFrais, 0)'
+                    . 'VALUES(:unIdVisiteur, :unMois, :idFrais, 0, :puissanceVoiture)'
             );
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->bindParam(':idFrais', $unIdFrais['idfrais'], PDO::PARAM_STR);
+            $requetePrepare->bindParam(':puissanceVoiture', $puissanceVoiture, PDO::PARAM_STR);
             $requetePrepare->execute();
         }
     }
