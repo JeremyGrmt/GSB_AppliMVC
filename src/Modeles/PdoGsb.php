@@ -113,7 +113,7 @@ class PdoGsb
      * 
      * @return le hash du mot de passe de l'utilisateur appelé 
      */
-    public function getMdpUtilisateur($login): array
+    public function getMdpUtilisateur($login): string
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT mdp '
