@@ -16,7 +16,7 @@
  */
 
 use Outils\Utilitaires;
-
+$ip = $_SERVER['REMOTE_ADDR'];
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 if (!$uc) {
     $uc = 'demandeconnexion';
@@ -27,14 +27,24 @@ switch ($action) {
         include PATH_VIEWS . 'v_connexion.php';
         break;
     case 'valideConnexion':
+        $nbEchecs = $pdo->echecsJournalisation($ip);
         $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $utilisateur = $pdo->getInfosUtilisateur($login);
         if (!password_verify($mdp,$pdo->getMdpUtilisateur($login))) {
-            Utilitaires::ajouterErreur('Login ou mot de passe incorrect');
-            include PATH_VIEWS . 'v_erreurs.php';
-            include PATH_VIEWS . 'v_connexion.php';
+            if(Utilitaires::journalEchecs($nbEchecs)){
+                include PATH_VIEWS . 'VueBan.php';
+            }
+            else
+            {
+                $nbEchecs = $pdo->echecsJournalisation($ip);
+                $pdo->ajouteEchecConnexion($ip);
+                Utilitaires::ajouterErreur('Login ou mot de passe incorrect');
+                include PATH_VIEWS . 'v_erreurs.php';
+                include PATH_VIEWS . 'v_connexion.php';
+            }
         } else {
+            $pdo->deleteEchecConnexion($_SERVER['REMOTE_ADDR']);
             $id = $utilisateur['id'];
             $nom = $utilisateur['nom'];
             $prenom = $utilisateur['prenom'];

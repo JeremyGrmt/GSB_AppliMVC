@@ -113,7 +113,7 @@ class PdoGsb
      * 
      * @return le hash du mot de passe de l'utilisateur appelé 
      */
-    public function getMdpUtilisateur($login): string
+    public function getMdpUtilisateur($login): string|null
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT mdp '
@@ -710,4 +710,33 @@ class PdoGsb
         return prux
      }
      */
+    public function echecsJournalisation($ip) :int{
+         $requetePrepare = $this->connexion->prepare(
+            'select nbechec as nb from journalechecsconnexion '.
+            'where IP = :ip'
+        );
+        $requetePrepare->bindParam(':ip', $ip, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $nbLigne = $laLigne['nb'];
+        return $nbLigne;
+    }
+    
+    public function ajouteEchecConnexion($ip) :void{
+        $requetePrepare = $this->connexion->prepare(
+            'update journalechecsconnexion '
+                .'set journalechecsconnexion.nbechec = nbechec +1 where journalechecsconnexion.ip = :ip '
+        );
+        $requetePrepare->bindParam(':ip', $ip, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    public function deleteEchecConnexion($ip) :void{
+        $requetePrepare = $this->connexion->prepare(
+                'Delete from journalechecsconnexion '
+                .'where journalechecsconnexion.ip = :ip'
+                );
+        $requetePrepare->bindParam(':ip', $ip, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
 }

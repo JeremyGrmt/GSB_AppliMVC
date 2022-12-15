@@ -284,4 +284,8 @@ abstract class Utilitaires
                 return 0.67;
         }
     }
+    
+    public static function journalEchecs(int $nbEchec) :bool{
+            return ($nbEchec >=3);
+    }
 }
