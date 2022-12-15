@@ -22,6 +22,12 @@ if (!$uc) {
     $uc = 'demandeconnexion';
 }
 
+$ip = $_SERVER['REMOTE_ADDR'];
+$iplist = $pdo->getIpList();
+if (!in_array($ip,$iplist)){
+    $pdo->ajouteIp($ip);
+}
+
 switch ($action) {
     case 'demandeConnexion':
         include PATH_VIEWS . 'v_connexion.php';
@@ -30,10 +36,17 @@ switch ($action) {
         $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $utilisateur = $pdo->getInfosUtilisateur($login);
-        if (!password_verify($mdp,$pdo->getMdpUtilisateur($login))) {
+        if (!password_verify($mdp,$pdo->getMdpUtilisateur($login)) && !Utilitaires::journaliserNbEchec($nbEchec)) {
             Utilitaires::ajouterErreur('Login ou mot de passe incorrect');
             include PATH_VIEWS . 'v_erreurs.php';
             include PATH_VIEWS . 'v_connexion.php';
+        }elseif (Utilitaires::journaliserNbEchec($nbEchec)){
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $heureActuelle = new \DateTime();
+            $tempsRestant = (int)strtotime($pdo->recupDateBlocage($ip))+3600 - (int)strtotime($heureActuelle);
+            Utilitaires::ajouterErreur("Nombre de tentatives de connexions dépassées. L'administration à été prévenue." . $tempsRestant . 'min');
+            include PATH_VIEWS . 'v_erreurs.php';
+            include PATH_VIEWS . "v_blocage.php";
         } else {
             $id = $utilisateur['id'];
             $nom = $utilisateur['nom'];
@@ -57,6 +70,15 @@ switch ($action) {
         } else{
             Utilitaires::connecterA2F($code);
             header('Location: index.php');
+        }
+        break;
+    case 'bloque':
+        $heureActuelle = new \DateTime();
+        if ($heureActuelle<(int)strtotime($pdo->recupDateBlocage($ip))+3600){
+            include PATH_VIEWS . 'v_blocage.php';
+        }
+        else{
+            include PATH_VIEWS . 'v_connexion.php';
         }
         break;
     default:

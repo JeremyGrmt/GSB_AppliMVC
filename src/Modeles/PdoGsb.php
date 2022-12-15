@@ -694,6 +694,59 @@ class PdoGsb
         $requetePrepare->execute();
     }
     
+    public function ajouteIp($ip){
+        $requetePrepare = $this->connexion->prepare(
+                'insert into journalisationEchecConnexion(ip,nbEchec,horodatage) values '
+                . '(:uneIp, 0, null)'
+        );
+        $requetePrepare->bindParam(':uneIp', $ip, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    public function getIpList(){
+        $requetePrepare = $this->connexion->prepare(
+                'select ip from journalisationechecconnexion'
+        );
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
+    }
+    
+    public function ajouteNbEchec($ip){
+        $requetePrepare = $this->connexion->prepare(
+                'update journalisationEchecConnexion set nbEchec = nbEchec+1'
+        );
+        $requetePrepare->execute();
+    }
+    
+    public function blocageUtilisateur($ip,$nbEchec,$date){
+        $requetePrepare = $this->connexion->prepare(
+                'insert into journalisationEchecConnexion(ip,nbEchec,horodatage) values '
+                . '(:uneIp , :nbEchec , :date'
+        );
+        $requetePrepare->bindParam(':uneIp', $ip, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':nbEchec', $nbEchec, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':date', $date, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    public function recupDateBlocage($ip){
+        $requetePrepare = $this->connexion->prepare(
+                'select horodatage from journalisationEchecConnexion where ip = :uneIp'
+        );
+        $requetePrepare->bindParam(':uneIp', $ip, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+    
+    public function deblocageUtilisateur($temps){
+        $requetePrepare = $this->connexion->prepare(
+                'delete from journalisationEchecConnexion '
+                . 'where horodatage>:temps'
+        );
+        $requetePrepare->bindParam(':temps', $temps, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
     /**
     futur fonction pour recup le montant a partir de idvoiture dans utilisateur
       public function recupPrixVoiture($idVoiture):float{
