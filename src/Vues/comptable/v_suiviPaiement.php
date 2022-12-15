@@ -58,9 +58,11 @@
                 $id = $unFraisHorsForfait['id']; ?>           
                 <tr>
 
+                    <form action="modifierdonnées" method="post">
                     <td><input class="input-table-final" type="text" id="date" name="date" required value= <?php echo '"'.$date. '"' ?> disabled="disabled"></input></td>
                         <td><input class="input-table-final" type="text" id="libelle" name="libelle" required value= <?php echo '"'.$libelle. '"' ?> disabled="disabled"></td>
                         <td><input class="input-table-final" type="text" id="montant" name="montant" required value= <?php echo '"'.$montant. '"'  ?> disabled="disabled"></td>
+                    </form>
 
                     
                 </tr>
@@ -74,7 +76,9 @@
 
 <!--affichage des justificatifs-->
 <div class="row">
-    <form action="index.php?uc=suiviPaiement&action=miseEnPaiement">
+
+    <form action="index.php?uc=suiviPaiement&action=miseEnPaiement" method="post">
+
         <div>
             <label>Nombre de justificatifs : </label>
             <input class="input-justif-final" type="text" id="nbJustificatifs" name="nbJustificatifs" required value= <?php echo '"'.$nbJustificatifs. '"'  ?> disabled="disabled">

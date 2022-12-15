@@ -45,6 +45,7 @@ switch ($action) {
         
         /*variable récupérant l'action*/
         $uc = "index.php?uc=validFicheFrais";
+
         $uc_ac = "index.php?uc=validFicheFrais&action=validerfichefrais";
         
         /*infos liste visiteurs*/
@@ -102,6 +103,7 @@ switch ($action) {
         }
         break;
     case 'validerMajFraisHorsForfait':
+
         $uc = "index.php?uc=validFicheFrais";
         $uc_ac = "index.php?uc=validFicheFrais&action=validerfichefrais";
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
@@ -122,6 +124,7 @@ switch ($action) {
         include PATH_VIEWS . 'comptable\v_listeMois.php';
         include PATH_VIEWS . 'comptable\v_valideFicheFrais.php';
         include PATH_VIEWS . 'comptable\v_tableauHorsForfait.php';
+
             
        // } else {
             
@@ -131,9 +134,11 @@ switch ($action) {
         break;
 
     case 'refuserFraisHorsForfait':
+
         $uc = "index.php?uc=validFicheFrais";
         $uc_ac = "index.php?uc=validFicheFrais&action=validerfichefrais";
         $idFrais = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
         $pdo->refuserFraisHorsForfait($idFrais);
         break;
 }

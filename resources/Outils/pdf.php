@@ -1,14 +1,21 @@
 <?php
 
+/**
+ * Classe pour générer une fiche de frais en pdf.
+ */
 define('PATH_ROOT', '../public');
 require('fpdf185/fpdf.php');
 
 use Modeles\PdoGsb;
 
-//namespace Outils;
+use Outils\Utilitaires;
+
 
 class pdf extends FPDF {
 
+    /**
+     * fonction pour afficher le header du pdf avec le logo.
+     */
     function Header() {
         // Logo : 8 >position à gauche du document (en mm), 2 >position en haut du document, 80 >largeur de l'image en mm). La hauteur est calculée automatiquement.
         $this->Image(PATH_ROOT . '/images/logo.jpg', 8, 2);
@@ -26,7 +33,13 @@ class pdf extends FPDF {
         // Saut de ligne 10 mm
     }
 
-    function BasicTable($header, $data, $tailleColonnes) {
+    /**
+     * 
+     * @param array $header tableau du header déjà choisi.
+     * @param array $data toutes les données à mettre dans le tableau à partir d'un tableau de tableaux.
+     * @param array $tailleColonnes taille des colonnes prédéfinis pour éviter débordement.
+     */
+    function BasicTable(array $header, array $data, array $tailleColonnes) {
         // Header
         $i = 0;
         $this->setTextColor(0, 0, 230);
@@ -52,6 +65,10 @@ class pdf extends FPDF {
         }
     }
 
+
+    /**
+     * Footer avec le numéro de la page.
+     */
     function Footer() {
         // Positionnement à 1,5 cm du bas
         $this->SetY(-15);
@@ -64,21 +81,25 @@ class pdf extends FPDF {
 }
 
 $pdo = PdoGsb::getPdoGsb();
-$idVisiteur = $_SESSION['idVisiteur'];
-$nomVisiteur = $_SESSION['nom'];
-$prenomVisiteur = $_SESSION['prenom'];
-$lemois = $_SESSION['lemois'];
-$subMois = substr($lemois, 4, 6);
-$subAnnee = substr($lemois, 0, 4);
+
+$idVisiteur = $_SESSION['idVisiteur']; //id du visiteur
+$nomVisiteur = $_SESSION['nom']; //nom du visiteur
+$prenomVisiteur = $_SESSION['prenom']; //prénom du visiteur
+$lemois = $_SESSION['lemois']; //le mois  et l'année de la fiche de frais séléctionnée
+$subMois = substr($lemois, 4, 6); //récup uniquement du mois
+$subAnnee = substr($lemois, 0, 4); //récup uniquement de l'année
 //$nomVisiteur = $pdo->getNomVisiteur($idVisiteur);
-$lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
-$tablo = $pdo->getLesFraisForfait($idVisiteur, $lemois);
-$lesMontant = $pdo->getMontantFraisForfait();
-$lesMontantHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $lemois);
+//$lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
+$tablo = $pdo->getLesFraisForfait($idVisiteur, $lemois); //tableau des frais du visiteur et du mois séléctionnés
+$lesMontant = $pdo->getMontantFraisForfait(); //obtenir le montant unitaire de chaque frais forfait
+$lesMontantHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $lemois); //montant des frais hors forfait
+$nbJustificatif = $pdo->getNbjustificatifs($idVisiteur, $lemois); //nb de justificatif
 $totaltotal = 0;
+$prixKilometrique = $pdo->recupPrixLigneFicheFrais($idVisiteur,$lemois);
 //ob_start();
 ob_clean();
 $pdf = new pdf();
+$pdf->SetTitle("Fiche Frais de ".$nomVisiteur . " ".$prenomVisiteur,True);
 $pdf->AddPage();
 // Column headings
 $libelleQuantite = array();
@@ -104,6 +125,9 @@ $tailleColonnes1 = array (
 $tailleColonnes2 = array (
     45, 100, 30
 );
+
+$montantPrix = 0;
+
 foreach ($tablo as $unFrais) {
     $libelle = $unFrais['libelle'];
     $quantite = $unFrais['quantite'];
@@ -112,12 +136,26 @@ foreach ($tablo as $unFrais) {
     array_push($datasTablo, $libelleQuantite);
     $libelleQuantite = array();
 }
+
+$montantPuissance = 1;
 foreach ($lesMontant as $unFrais) {
-    $montant = $unFrais['montant'];
-    $total = floatval($datasTablo[$i][1]) * floatval($montant);
-    array_push($datasTablo[$i], $montant);
+    if ($montantPrix == 1){
+        array_push($datasTablo[$i],$prixKilometrique['prxKm']);
+        $total = floatval($datasTablo[$i][1]) * floatval($prixKilometrique['prxKm']);
+    }
+    else{
+        $montant = $unFrais['montant'];
+        array_push($datasTablo[$i], $montant);
+        $total = floatval($datasTablo[$i][1]) * floatval($montant);
+    }
+    
+//    if ($montantPuissance == 2){
+//        $montant = Utilitaires::indemniteKilometrique($colonneNomPuissance);
+//    }
+    $montantPrix++;
     array_push($datasTablo[$i], $total);
     $i++;
+    $montantPuissance++;
     $totaltotal += $total;
 }
 
@@ -143,18 +181,30 @@ $pdf->SetXY(8, 65);
 $pdf->Cell("Mois", 0, "Fiche du : ". $subMois ."/".$subAnnee, 0, "L");
 $pdf->SetXY(8, 70);
 $pdf->Cell("Matricule", 0, "Matricule : ". $idVisiteur. "". utf8_decode($nomVisiteur), 0, "L");
-$pdf->Ln(20);
+
+$pdf->Ln(15);
+
 $pdf->BasicTable($header, $datasTablo,$tailleColonnes1);
 $pdf->setTextColor(0, 0, 0);
 $pdf->Ln(10);
 $pdf->Cell(180, 8, utf8_decode('Autres Frais'), 0, 1, 'C', 0);
-$pdf->Ln(10);
+
+$pdf->Ln(5);
 $pdf->BasicTable($header2, $tabloHorsForfait,$tailleColonnes2);
+$pdf->Ln(5);
+$pdf->Cell("Justificatif", 0, "Nombre de justificatif : ". $nbJustificatif, 0, "L");
 $pdf->Ln(10);
 $pdf->SetX(105);
 $pdf->Cell("Total ", 0, "Total de tous les frais : ". $totaltotal." euros", 0, "L");
+$pdf->Ln(10);
+$pdf->SetX(105);
+$pdf->Cell("Fait ", 0, utf8_decode("Fait à Paris, le "). date('d '). date('F '). date('Y'), 0, "L");
+$pdf->Ln(8);
+$pdf->SetX(105);
+$pdf->Cell("Vu ", 0, "Vu l'agent comptable", 0, "L");
+$pdf->Ln(10);
 //$pdf->BasicTable($montants);
-$pdf->Image('../resources/Outils/signatureComptable.jpg', 130, 240);
+$pdf->Image('../resources/Outils/signatureComptable.jpg',105);
 //ob_clean();
 $pdf->Output();
 //ob_end_flush();
