@@ -315,7 +315,7 @@ class PdoGsb
      *
      * @return null
      */
-    public function majFraisForfait($idVisiteur, $mois, $lesFrais): void
+    public function majFraisForfait($idVisiteur, $mois, $lesFrais, $puissance): void
     {
         $lesCles = array_keys($lesFrais);
         foreach ($lesCles as $unIdFrais) {
@@ -331,7 +331,20 @@ class PdoGsb
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->bindParam(':idFrais', $unIdFrais, PDO::PARAM_STR);
+            $Km = 'KM';
+            $requetePrepare2 = $this->connexion->prepare(
+                'UPDATE lignefraisforfait '
+                    . 'SET lignefraisforfait.prxKm = :puissance '
+                    . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+                    . 'AND lignefraisforfait.mois = :unMois '
+                    . 'AND lignefraisforfait.idfraisforfait = :Km '
+            );
+            $requetePrepare2->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare2->bindParam(':puissance', $puissance, PDO::PARAM_STR);
+            $requetePrepare2->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare2->bindParam(':Km', $Km, PDO::PARAM_STR);
             $requetePrepare->execute();
+            $requetePrepare2->execute();
         }
     }
 
@@ -422,7 +435,7 @@ class PdoGsb
      *
      * @return null
      */
-    public function creeNouvellesLignesFrais($idVisiteur, $mois): void
+    public function creeNouvellesLignesFrais($idVisiteur, $mois, $puissanceVoiture): void
     {
         $dernierMois = $this->dernierMoisSaisi($idVisiteur);
         $laDerniereFiche = $this->getLesInfosFicheFrais($idVisiteur, $dernierMois);
@@ -442,11 +455,12 @@ class PdoGsb
             $requetePrepare = $this->connexion->prepare(
                 'INSERT INTO lignefraisforfait (idvisiteur,mois,'
                     . 'idfraisforfait,quantite) '
-                    . 'VALUES(:unIdVisiteur, :unMois, :idFrais, 0)'
+                    . 'VALUES(:unIdVisiteur, :unMois, :idFrais, 0, :puissanceVoiture)'
             );
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->bindParam(':idFrais', $unIdFrais['idfrais'], PDO::PARAM_STR);
+            $requetePrepare->bindParam(':puissanceVoiture', $puissanceVoiture['id'], PDO::PARAM_STR);
             $requetePrepare->execute();
         }
     }
@@ -633,4 +647,67 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    
+    public function recupPuissancesVoiture():array{
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT typevoiture .id as id, typevoiture .libelle as libelle, typevoiture .montant as montant '.
+                'from typevoiture '
+        );
+
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+    
+    public function recupPrixLigneFicheFrais($idVisiteur,$mois):array {
+        $km = 'KM';
+        $requetePrepare = $this->connexion->prepare(
+                'select distinct prxKm from lignefraisforfait '.
+                'where idvisiteur = :visiteur '.
+                'and mois = :mois '.
+                'and idfraisforfait = :km'
+                );
+        $requetePrepare->bindParam(':visiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':km', $km, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
+    }
+    
+    public function recupPrixPuissance($idPuissance):array{
+        $requetePrepare = $this->connexion->prepare(
+            'select typevoiture .montant as montant from typevoiture  '.
+            'where typevoiture .id = :idPuissance'
+        );
+        $requetePrepare->bindParam(':idPuissance', $idPuissance, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
+    }
+    
+    public function majPuissanceVoiture($idVisiteur,$puissanceRecup):void{
+        $requetePrepare = $this->connexion->prepare(
+            'UPDATE Utilisateur '
+                . 'SET idvoiture = :unePuissance '
+                . 'WHERE utilisateur.id = :unIdVisiteur '
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unePuissance', $puissanceRecup, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    /**
+    futur fonction pour recup le montant a partir de idvoiture dans utilisateur
+      public function recupPrixVoiture($idVoiture):float{
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT voiture.prix as prix '.
+     *      'from voiture '.
+     *      'where voiture.id = :idVoiture '
+        );
+
+        $requetePrepare->bindParam(':idVoiture', $idVoiture, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $prix = $laLigne['prix'];
+        return prux
+     }
+     */
 }
