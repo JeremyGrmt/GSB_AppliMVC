@@ -45,8 +45,13 @@ switch ($action) {
             // code temporaire histoire de pouvoir faire de l'automatisation :
             $code = 1234;
             $pdo->setCodeA2F($id,$code);
-            mail($email,'[GSB-AppliFrais] Code de vérification', "Code : $code");
+            try{
+            mail($email,'[GSB-AppliFrais] Code de vérification', "Code : $code");}
+            catch(Exception $ex){
+                echo('');
+            } finally{
             include PATH_VIEWS . 'v_code2facteurs.php';
+            }
         }
         break;
     case 'valideA2FConnexion':
