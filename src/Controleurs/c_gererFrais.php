@@ -60,6 +60,7 @@ switch ($action) {
         $pdo->supprimerFraisHorsForfait($idFrais);
         break;
 }
+$lesVoitures = $pdo->getVoiture();
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
 require PATH_VIEWS . 'v_listeFraisForfait.php';

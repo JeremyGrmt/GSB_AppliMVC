@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Vue Liste des frais au forfait
  *
@@ -14,7 +13,6 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
 ?>
 <div class="row">    
     <h2>Renseigner ma fiche de frais du mois 
@@ -30,7 +28,8 @@
                 foreach ($lesFraisForfait as $unFrais) {
                     $idFrais = $unFrais['idfrais'];
                     $libelle = htmlspecialchars($unFrais['libelle']);
-                    $quantite = $unFrais['quantite']; ?>
+                    $quantite = $unFrais['quantite'];
+                    ?>
                     <div class="form-group">
                         <label for="idFrais"><?php echo $libelle ?></label>
                         <input type="text" id="idFrais" 
@@ -46,28 +45,19 @@
                     <label for="typeVehicule">Quel est votre type de vehicule : </label>
                     <select class="form-control" name="typeVehicule" id="typeVehicule" required>
                         <option value="">--Selectionnez le type de votre vehicule--</option>
-                <?php
-                foreach ($typesVoitures as $untype){
-                    $id = $untype['id'];
-                    $puissance = htmlspecialchars($untype['voiture']);
-                    ?>
-                        <option value="<?php echo $id?>"><?php echo $puissance ?></option>
-                <?php
-                }
-                ?>
-<!--                <div class="form-group">
-                    <label for="typeVehicule">Quel est votre type de vehicule : </label>
-                    <select class="form-control" name="typeVehicule" id="typeVehicule" required>
-                        <option value="">--Selectionnez le type de votre vehicule--</option>
-                        <option value="1">4CV Diesel</option>
-                        <option value="2">5/6CV Diesel</option>
-                        <option value="3">4CV Essence</option>
-                        <option value="4">5/6CV Essence</option>-->
+                        <?php
+                        foreach ($typesVoitures as $untype) {
+                            $id = $untype['id'];
+                            $puissance = htmlspecialchars($untype['libelle']);
+                            ?>
+                            <option value="<?php echo $id ?>"><?php echo $puissance ?></option>
+                            <?php
+                        }
+                        ?>
                     </select>
+                        <button class="btn btn-success" type="submit">Ajouter</button>
+                        <button class="btn btn-danger" type="reset">Effacer</button>
+                        </fieldset>
+                        </form>
                 </div>
-                <button class="btn btn-success" type="submit">Ajouter</button>
-                <button class="btn btn-danger" type="reset">Effacer</button>
-            </fieldset>
-        </form>
-    </div>
-</div>
+                </div>

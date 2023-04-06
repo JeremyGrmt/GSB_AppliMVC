@@ -648,9 +648,10 @@ class PdoGsb
         $requetePrepare->execute();
     }
     
+    
     public function recupPuissancesVoiture():array{
         $requetePrepare = $this->connexion->prepare(
-            'SELECT typevoiture .id as id, typevoiture .libelle as libelle, typevoiture .montant as montant '.
+            'SELECT typevoiture .id as id, typevoiture .libelle as libelle, typevoiture .prix as montant '.
                 'from typevoiture '
         );
 
@@ -675,7 +676,7 @@ class PdoGsb
     
     public function recupPrixPuissance($idPuissance):array{
         $requetePrepare = $this->connexion->prepare(
-            'select typevoiture .montant as montant from typevoiture  '.
+            'select typevoiture .prix as montant from typevoiture  '.
             'where typevoiture .id = :idPuissance'
         );
         $requetePrepare->bindParam(':idPuissance', $idPuissance, PDO::PARAM_STR);
@@ -710,4 +711,13 @@ class PdoGsb
         return prux
      }
      */
+    public function getVoiture(): array
+    {
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT id as id, libelle as libelle from typevoiture '
+        );
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        return $laLigne;
+    }
 }
