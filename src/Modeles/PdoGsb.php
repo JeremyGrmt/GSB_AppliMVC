@@ -150,7 +150,7 @@ class PdoGsb
      * 
      * @return le code A2F sous forme de tableau associatif
      */
-    public function getCodeUtilisateur($id)
+    public function getCodeUtilisateur($id): string
     {
         $requetePrepare = $this->connexion->prepare(
             'select utilisateur.codea2f as codea2f '
