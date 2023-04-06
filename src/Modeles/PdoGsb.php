@@ -111,7 +111,7 @@ class PdoGsb
      * 
      * @param String $login Login de l'utilisateur
      * 
-     * @return le hash du mot de passe de l'utilisateur appelé 
+     * @return le hash du mot de passe de l'utilisateur appelé sous forme de string
      */
     public function getMdpUtilisateur($login): string
     {
