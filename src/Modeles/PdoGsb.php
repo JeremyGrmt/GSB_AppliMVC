@@ -274,6 +274,30 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
     }
+    
+    public function getLaPuissanceForfait($idVisiteur, $mois): array
+    {
+        $Km = 'KM';
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT lignefraisforfait.idTypeVoiture as idVoiture '
+            . 'FROM lignefraisforfait '
+            . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+            . 'AND lignefraisforfait.mois = :unMois '
+            .'AND lignefraisforfait.idfraisforfait = :km '
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':km', $Km, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        //return $requetePrepare->fetch();
+        
+        $resultat = $requetePrepare->fetch();
+        if (!$resultat) {
+        // gestion de l'absence de résultats:
+        return [];
+        }
+        else  {return $resultat;}
+    }
 
     /**
      * fonction qui récupère le montant unitaire d'un frais forfait
@@ -315,7 +339,7 @@ class PdoGsb
      *
      * @return null
      */
-    public function majFraisForfait($idVisiteur, $mois, $lesFrais, $puissance): void
+    public function majFraisForfait($idVisiteur, $mois, $lesFrais, $puissance,$idVoiture): void
     {
         $lesCles = array_keys($lesFrais);
         foreach ($lesCles as $unIdFrais) {
@@ -343,8 +367,21 @@ class PdoGsb
             $requetePrepare2->bindParam(':puissance', $puissance, PDO::PARAM_STR);
             $requetePrepare2->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare2->bindParam(':Km', $Km, PDO::PARAM_STR);
+            
+            $requetePrepare3 = $this->connexion->prepare(
+                'UPDATE lignefraisforfait '
+                    . 'SET lignefraisforfait.idTypeVoiture = :idVoiture '
+                    . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+                    . 'AND lignefraisforfait.mois = :unMois '
+                    . 'AND lignefraisforfait.idfraisforfait = :Km '
+            );
+            $requetePrepare3->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare3->bindParam(':idVoiture', $idVoiture, PDO::PARAM_STR);
+            $requetePrepare3->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare3->bindParam(':Km', $Km, PDO::PARAM_STR);
             $requetePrepare->execute();
             $requetePrepare2->execute();
+            $requetePrepare3->execute();
         }
     }
 
@@ -663,6 +700,21 @@ class PdoGsb
         $km = 'KM';
         $requetePrepare = $this->connexion->prepare(
                 'select distinct prxKm from lignefraisforfait '.
+                'where idvisiteur = :visiteur '.
+                'and mois = :mois '.
+                'and idfraisforfait = :km'
+                );
+        $requetePrepare->bindParam(':visiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':km', $km, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
+    }
+    
+    public function recupIdVoitureLigneFicheFrais($idVisiteur,$mois):array {
+        $km = 'KM';
+        $requetePrepare = $this->connexion->prepare(
+                'select lignefraisforfait.idTypeVoiture as idTypeVoiture, lignefraisforfait.mois as mois from lignefraisforfait '.
                 'where idvisiteur = :visiteur '.
                 'and mois = :mois '.
                 'and idfraisforfait = :km'

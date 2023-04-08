@@ -63,6 +63,7 @@ switch ($action) {
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
+        $puissanceForfait = $pdo->getLaPuissanceForfait($idVisiteur, $leMois);
         $numAnnee = substr($leMois, 0, 4);
         $numMois = substr($leMois, 4, 2);
         //gestion du cas où il n'y aurait pas de fiche de frais renvoyée

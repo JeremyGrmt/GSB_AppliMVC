@@ -34,7 +34,7 @@ switch ($action) {
         $puissanceVoiture = filter_input(INPUT_POST, 'typeVehicule', FILTER_DEFAULT);
         $prixPuissanceVoiture = $pdo->recupPrixPuissance($puissanceVoiture);
         if (Utilitaires::lesQteFraisValides($lesFrais)) {
-            $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais, $prixPuissanceVoiture['montant']);
+            $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais, $prixPuissanceVoiture['montant'],$puissanceVoiture);
 
             $pdo->majPuissanceVoiture($idVisiteur,$puissanceVoiture);
         } else {
@@ -63,5 +63,6 @@ switch ($action) {
 $lesVoitures = $pdo->getVoiture();
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+$puissanceForfait = $pdo->getLaPuissanceForfait($idVisiteur, $mois);
 require PATH_VIEWS . 'v_listeFraisForfait.php';
 require PATH_VIEWS . 'v_listeFraisHorsForfait.php';

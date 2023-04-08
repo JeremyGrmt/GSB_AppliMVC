@@ -31,6 +31,7 @@
                     <?php
                 }
                 ?>
+                <input type="hidden" name="typeVehicule" value="<?php echo $puissanceForfait['idVoiture'] ?>">
                 <button class="btn btn-success" type="submit">Corriger</button>
                 <button class="btn btn-danger" type="reset">Réinitialiser</button>
             </fieldset>
