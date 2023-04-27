@@ -2,7 +2,7 @@
  
 # GSB-2023
 
-## Folder Structure (à changer)
+## Folder Structure
     .
     ├── bin # 
         └── gendata # 
