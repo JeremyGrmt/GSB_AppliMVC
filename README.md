@@ -58,8 +58,8 @@
 8.  Executer la commande `php ./bin/gendatas/majGSB.php`
 9.  Executer dans la base de donnée le script sql `addcomptables.sql`
 10.  Executer la commande `php ./bin/gendatas/hashMdp.php`
-11. Executer dans la base de donnée le script codepin.sql
-12. Executer dans la base de donnée le script puissancevoiture.sql
+11. Executer dans la base de donnée le script `codepin.sql`
+12. Executer dans la base de donnée le script `puissancevoiture.sql`
 ---
 
 ### Serveur production
@@ -90,7 +90,7 @@ mariadb
 8  Executer la commande `php ./bin/gendatas/majGSB.php`
 9  Executer dans la base de donnée le script sql `addcomptables.sql`
 10 Executer la commande `php ./bin/gendatas/hashMdp.php`
-11 Executer dans la base de donnée le script codepin.sql
-12 Executer dans la base de donnée le script puissancevoiture.sql
+11 Executer dans la base de donnée le script `codepin.sql`
+12 Executer dans la base de donnée le script `puissancevoiture.sql`
 
 AP Galaxy Swiss-Bourdin - BTS SIO 2023 - GRIMONT JEREMY - CROCHARD PASCAL - RAISIN LOGAN
