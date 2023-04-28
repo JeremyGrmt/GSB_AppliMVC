@@ -52,13 +52,14 @@
 2.  Installer git en regardant la [documentation](https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Installation-de-Git)
 3.  Installer [PaperCut SMTP](https://github.com/ChangemakerStudios/Papercut-SMTP/releases)
 4.  Cloner le projet
-5.  Créer un utilisateur usergsb avec mdp = usergsb dans le sgbd avec le compte root
-6.  Ouvrir un terminal powershell à la racine du projet
-7.  Executer la commande `php ./bin/gendatas/majGSB.php`
-8.  Executer dans la base de donnée le script sql `addcomptables.sql`
-9.  Executer la commande `php ./bin/gendatas/hashMdp.php`
-10. Executer dans la base de donnée le script codepin.sql
-11. Executer dans la base de donnée le script puissancevoiture.sql
+5.  Créer un utilisateur usergsb avec mdp = secret dans le sgbd avec le compte root
+6.  Executer dans la base de donnée le script sql `gsb_restore_pascal.sql`
+7.  Ouvrir un terminal powershell à la racine du projet
+8.  Executer la commande `php ./bin/gendatas/majGSB.php`
+9.  Executer dans la base de donnée le script sql `addcomptables.sql`
+10.  Executer la commande `php ./bin/gendatas/hashMdp.php`
+11. Executer dans la base de donnée le script codepin.sql
+12. Executer dans la base de donnée le script puissancevoiture.sql
 ---
 
 ### Serveur production
@@ -84,11 +85,12 @@ mariadb
 >create user usergsb@localhost identified by 'usergsb'
 >grant all privileges on *.* to usergsb@localhost
 ```
-6. cloner le projet
-7.  Executer la commande `php ./bin/gendatas/majGSB.php`
-8.  Executer dans la base de donnée le script sql `addcomptables.sql`
-9.  Executer la commande `php ./bin/gendatas/hashMdp.php`
-10. Executer dans la base de donnée le script codepin.sql
-11. Executer dans la base de donnée le script puissancevoiture.sql
+6.  cloner le projet
+7.  Executer dans la base de donnée le script sql `gsb_restore_pascal.sql`
+8  Executer la commande `php ./bin/gendatas/majGSB.php`
+9  Executer dans la base de donnée le script sql `addcomptables.sql`
+10 Executer la commande `php ./bin/gendatas/hashMdp.php`
+11 Executer dans la base de donnée le script codepin.sql
+12 Executer dans la base de donnée le script puissancevoiture.sql
 
 AP Galaxy Swiss-Bourdin - BTS SIO 2023 - GRIMONT JEREMY - CROCHARD PASCAL - RAISIN LOGAN
